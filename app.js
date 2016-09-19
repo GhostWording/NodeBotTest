@@ -19,11 +19,17 @@ bot.on('error', (err) => {
 bot.on('message', (payload, reply) => {
   let text = payload.message.text
   console.log(text)
+  let index = topics.indexOf(text)
+  console.log(`${text}: ${index} in topics`)
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
 
     console.log(`User ${profile.first_name} ${profile.last_name}: ${profile.locale}, ${profile.timezone}`)
+    if (index > -1) {
+      text = `Random text on ${text}`
+      // and add a pic
+    }
 
     reply({ text }, (err) => {
       if (err) throw err

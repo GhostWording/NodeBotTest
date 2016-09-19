@@ -17,7 +17,7 @@ bot.on('error', (err) => {
 })
 
 bot.on('message', (payload, reply) => {
-  let text = payload.message.text
+  let text = payload.message.text.lower()
   console.log(text)
   let index = topics.indexOf(text)
   console.log(`${text}: ${index} in topics`)
@@ -36,6 +36,22 @@ bot.on('message', (payload, reply) => {
 
       console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
     })
+
+    let imageMessage = {
+      "attachment":{
+        "type":"image",
+           "payload":{
+              "url":"https://petersapparel.parseapp.com/img/shirt.png",
+              "is_reusable":true
+           }
+      }
+    }
+    reply(imageMessage, (err) => {
+      if (err) throw err
+
+      console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
+    })
+
   })
 })
 

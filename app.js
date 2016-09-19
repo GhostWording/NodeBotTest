@@ -17,7 +17,7 @@ bot.on('error', (err) => {
 })
 
 bot.on('message', (payload, reply) => {
-  let text = payload.message.text.lower()
+  let text = payload.message.text.toLowerCase()
   console.log(text)
   let index = topics.indexOf(text)
   console.log(`${text}: ${index} in topics`)

@@ -3,6 +3,8 @@
 const http = require('http')
 const Bot = require('messenger-bot')
 
+const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
+
 let bot = new Bot({
   token: 'EAAYHoXEAtwgBAPHZAWfJvzxua4NgEzrueZBdiJOVKdU4LzJZCYilbj8WTzuD0XY6lt8lhhnzBcsVaZCLMcgs3Sv1cyeEItDZCfM1qzEUoCkC4hw8NaZBN1oZCqbwaeJQMwZBOKPGsGISFeramAReh6ONri2mv0W1AFZBOZALQ0A1HkFAZDZD', // 'PAGE_TOKEN',
   verify: 'BAPHZAWfJvzxua4NgEzrueZBdiJOVKd', // 'VERIFY_TOKEN',
@@ -10,14 +12,18 @@ let bot = new Bot({
 })
 
 bot.on('error', (err) => {
+  console.log('error processed')
   console.log(err.message)
 })
 
 bot.on('message', (payload, reply) => {
   let text = payload.message.text
+  console.log(text)
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
+
+    console.log(`User ${profile.first_name} ${profile.last_name}: ${locale}, ${timezone}`)
 
     reply({ text }, (err) => {
       if (err) throw err

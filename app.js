@@ -30,18 +30,18 @@ bot.on('message', (payload, reply) => {
     let image = ''
     console.log(`User ${profile.first_name} ${profile.last_name}: ${profile.locale}, ${profile.timezone}`)
     if (index > -1) {
-      text = `Random text on ${text}`
-      image = 'https://petersapparel.parseapp.com/img/shirt.png'
+      text = `Some text on ${text}`
+      image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       // and add a pic
     } else {
       let allTopics = topics.join(', ')
-      text = `I have nothing on ${text}\nTry any of ${allTopics}`
+      text = `I have nothing on ${text}\nTry any of ${allTopics}.`
     }
 
     reply({ text }, (err) => {
       if (err) throw err
 
-      console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
+      console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
     })
     if (image > '') {
       let imageMessage = {

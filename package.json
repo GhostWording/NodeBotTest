@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "http": "0.0.0",
     "messenger-bot": "^2.3.0"
   }
 }

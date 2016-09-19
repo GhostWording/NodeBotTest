@@ -4,7 +4,9 @@ const http = require('http')
 const Bot = require('messenger-bot')
 
 const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
+// const intentions = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 
+// todo: move tokens to env vars later
 let bot = new Bot({
   token: 'EAAYHoXEAtwgBAPHZAWfJvzxua4NgEzrueZBdiJOVKdU4LzJZCYilbj8WTzuD0XY6lt8lhhnzBcsVaZCLMcgs3Sv1cyeEItDZCfM1qzEUoCkC4hw8NaZBN1oZCqbwaeJQMwZBOKPGsGISFeramAReh6ONri2mv0W1AFZBOZALQ0A1HkFAZDZD', // 'PAGE_TOKEN',
   verify: 'BAPHZAWfJvzxua4NgEzrueZBdiJOVKd', // 'VERIFY_TOKEN',
@@ -29,6 +31,9 @@ bot.on('message', (payload, reply) => {
     if (index > -1) {
       text = `Random text on ${text}`
       // and add a pic
+    } else {
+      let allTopics = topics.join()
+      text = `I have nothing on ${text}\nTry any of ${allTopics}`
     }
 
     reply({ text }, (err) => {

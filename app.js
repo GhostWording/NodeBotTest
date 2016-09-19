@@ -27,12 +27,14 @@ bot.on('message', (payload, reply) => {
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
 
+    let image = ''
     console.log(`User ${profile.first_name} ${profile.last_name}: ${profile.locale}, ${profile.timezone}`)
     if (index > -1) {
       text = `Random text on ${text}`
+      image = 'https://petersapparel.parseapp.com/img/shirt.png'
       // and add a pic
     } else {
-      let allTopics = topics.join()
+      let allTopics = topics.join(', ')
       text = `I have nothing on ${text}\nTry any of ${allTopics}`
     }
 
@@ -41,21 +43,23 @@ bot.on('message', (payload, reply) => {
 
       console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
     })
-
-    let imageMessage = {
-      "attachment":{
-        "type":"image",
-           "payload":{
-              "url":"https://petersapparel.parseapp.com/img/shirt.png",
-              "is_reusable":true
-           }
+    if (image > '') {
+      let imageMessage = {
+        "attachment":{
+          "type":"image",
+             "payload":{
+                "url":image,
+                "is_reusable":true
+             }
+        }
       }
-    }
-    reply(imageMessage, (err) => {
-      if (err) throw err
+      reply(imageMessage, (err) => {
+        if (err) throw err
 
-      console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
-    })
+        console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
+      })      
+    }
+
 
   })
 })

@@ -65,22 +65,29 @@ bot.on('message', (payload, reply) => {
 
       console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
     })
-    // if (image > '') {
-    //   let imageMessage = {
-    //     "attachment":{
-    //       "type":"image",
-    //          "payload":{
-    //             "url":image,
-    //             "is_reusable":true
-    //          }
-    //     }
-    //   }
-    //   reply(imageMessage, (err) => {
-    //     if (err) throw err
+    if (image > '') {
+      let imageMessage = {
+        "attachment":{
+          "type":"image",
+          "payload":{
+            "url":image
+            // ,
+            // "is_reusable":true
+          }
+        }
+      }
+      reply(imageMessage, (err) => {
+        if (err) throw err
 
-    //     console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
-    //   })      
-    // }
+        console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
+      })      
+
+      reply({ text }, (err) => {
+        if (err) throw err
+
+        console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+      })
+    }
 
 
   })

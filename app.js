@@ -3,6 +3,9 @@
 const http = require('http')
 const Bot = require('messenger-bot')
 
+const express = require('express')
+const bodyParser = require('body-parser')
+
 const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 // const intentions = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 
@@ -108,5 +111,24 @@ bot.on('message', (payload, reply) => {
 })
 
 var port = process.env.port || 3000
-http.createServer(bot.middleware()).listen(port)
+// http.createServer(bot.middleware()).listen(port)
+// console.log('Echo bot server running at port ' + port)
+
+let app = express()
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
+
+app.get('/', (req, res) => {
+  return bot._verify(req, res)
+})
+
+app.post('/', (req, res) => {
+  bot._handleMessage(req.body)
+  res.end(JSON.stringify({status: 'ok'}))
+})
+
+http.createServer(app).listen(port)
 console.log('Echo bot server running at port ' + port)

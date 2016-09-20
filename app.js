@@ -18,6 +18,14 @@ bot.on('error', (err) => {
   console.log(err.message)
 })
 
+bot.on('authentication', (payload, reply) => {
+  reply({ text: `Hey ${profile.first_name}!`}, (err, info) => {})
+})
+
+bot.on('delivery', (payload, reply) => {
+  console.log(`Delivered: ${payload}`)
+})
+
 bot.on('message', (payload, reply) => {
   let text = payload.message.text.toLowerCase()
   console.log(text)
@@ -29,34 +37,15 @@ bot.on('message', (payload, reply) => {
 
     let image = ''
     let message
-    console.log(`User ${profile.first_name} ${profile.last_name}: ${profile.locale}, ${profile.timezone}`)
+    console.log(`User ${profile.first_name} ${profile.last_name}: ${payload.sender.id} ${profile.locale}, ${profile.timezone}`)
     if (index > -1) {
       text = `Some text on ${text}`
       image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
-      // and add a pic
-      // title (80 character limit), image_url
-      // message = {
-      //   "attachment":{
-      //     "type":"template",
-      //     "payload":{
-      //       "template_type":"generic",
-      //       "elements":[
-      //         {
-      //           "title":text,
-      //           "image_url":image
-      //         }
-      //       ]
-      //     }
-      //   }
-      // }
-
       let imageMessage = {
         "attachment":{
           "type":"image",
           "payload":{
             "url":image
-            // ,
-            // "is_reusable":true
           }
         }
       }
@@ -65,6 +54,7 @@ bot.on('message', (payload, reply) => {
 
         console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
 
+        // 320 character limit
         reply({ text }, (err) => {
           if (err) throw err
 

@@ -127,7 +127,7 @@ app.get('/', (req, res) => {
 
 app.get('/trigger', (req, res) => {
   // just a demo
-  let text = `Some text on ${text}`
+  let text = `Good morning`
   let image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
   // title (80 character limit), image_url
   let message = {

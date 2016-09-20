@@ -156,7 +156,8 @@ app.get('/trigger', (req, res) => {
 
   const messageTime = 9
   let d = new Date()
-  let curHour = d.getHours()
+  // let curHour = d.getHours()
+  let curHour = d.getUTCHours()
   console.log(`Time: ${curHour}`)
   for (var i = 0; i < users.length; i++) {
     console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)

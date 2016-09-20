@@ -125,8 +125,10 @@ app.get('/', (req, res) => {
   return bot._verify(req, res)
 })
 
+const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezone: 1}]
+
 app.get('/trigger', (req, res) => {
-  // just a demo
+  // can be customized later
   let text = `Good morning`
   let image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
   // title (80 character limit), image_url
@@ -144,12 +146,17 @@ app.get('/trigger', (req, res) => {
       }
     }
   }
-  bot.sendMessage(1226459377395660, message, (err) => {
-    if (err) throw err
 
-    console.log(`Sent message to ${1226459377395660}: ${text}`)
-    res.end(JSON.stringify({status: 'ok'}))
-  })
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].timezone === 3) {
+      bot.sendMessage(users[i].id, message, (err) => {
+        if (err) throw err
+
+        console.log(`Sent message to ${users[i].id}: ${text}`)
+        res.end(JSON.stringify({status: 'ok'}))
+      })
+    }
+  }
 })
 
 app.post('/', (req, res) => {

@@ -33,6 +33,7 @@ bot.on('delivery', (payload, reply) => {
 bot.on('message', (payload, reply) => {
   let text = payload.message.text
   console.log(text)
+  console.log(JSON.stringify(payload.message))
   let index = -1
   if (text > '') {
     text = text.toLowerCase()
@@ -125,6 +126,7 @@ app.get('/', (req, res) => {
   return bot._verify(req, res)
 })
 
+// temporarily
 const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezone: 1}]
 
 app.get('/trigger', (req, res) => {

@@ -75,19 +75,23 @@ bot.on('message', (payload, reply) => {
       text = `Some text on ${text}`
       image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       // title (80 character limit), image_url
+      // message = {
+      //   "attachment":{
+      //     "type":"template",
+      //     "payload":{
+      //       "template_type":"generic",
+      //       "elements":[
+      //         {
+      //           "title":text,
+      //           "image_url":image
+      //         }
+      //       ]
+      //     }
+      //   }
+      // }
       message = {
-        "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"generic",
-            "elements":[
-              {
-                "title":text,
-                "image_url":image
-              }
-            ]
-          }
-        }
+        "text":"New text",
+        "attachments":[{"type":"image","payload":{"url":"https://scontent.xx.fbcdn.net/v/t34.0-12/14445553_1207487709308218_381676705_n.jpg?_nc_ad=z-m&oh=207e477f61a2306011e1827a576273d6&oe=57E437AC"}}]
       }
       reply(message, (err) => {
         if (err) throw err

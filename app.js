@@ -35,37 +35,21 @@ bot.on('message', (payload, reply) => {
       image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       // and add a pic
       // title (80 character limit), image_url
-      message = {
-        "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"generic",
-            "elements":[
-              {
-                "title":text,
-                // "item_url":"https://petersfancybrownhats.com",
-                "image_url":image
-                // ,
-                // "subtitle":"We\'ve got the right hat for everyone.",
-                // "buttons":[
-                // ]
-              }
-            ]
-          }
-        }
-      }
-    } else {
-      let allTopics = topics.join(', ')
-      text = `I have nothing on ${text}\nTry any of ${allTopics}.`
-      message = { text }
-    }
+      // message = {
+      //   "attachment":{
+      //     "type":"template",
+      //     "payload":{
+      //       "template_type":"generic",
+      //       "elements":[
+      //         {
+      //           "title":text,
+      //           "image_url":image
+      //         }
+      //       ]
+      //     }
+      //   }
+      // }
 
-    reply(message, (err) => {
-      if (err) throw err
-
-      console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
-    })
-    if (image > '') {
       let imageMessage = {
         "attachment":{
           "type":"image",
@@ -87,9 +71,20 @@ bot.on('message', (payload, reply) => {
 
         console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
       })
+    } else {
+      let allTopics = topics.join(', ')
+      text = `I have nothing on ${text}\nTry any of ${allTopics}.`
+      message = { text }
+
+      reply(message, (err) => {
+        if (err) throw err
+
+        console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+      })
     }
 
-
+    // if (image > '') {
+    // }
   })
 })
 

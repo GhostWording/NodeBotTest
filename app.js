@@ -64,13 +64,13 @@ bot.on('message', (payload, reply) => {
         if (err) throw err
 
         console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
+
+        reply({ text }, (err) => {
+          if (err) throw err
+
+          console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+        })
       })      
-
-      reply({ text }, (err) => {
-        if (err) throw err
-
-        console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
-      })
     } else {
       let allTopics = topics.join(', ')
       text = `I have nothing on ${text}\nTry any of ${allTopics}.`

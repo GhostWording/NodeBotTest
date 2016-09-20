@@ -131,8 +131,8 @@ app.get('/', (req, res) => {
 })
 
 // temporarily
-// const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezone: 1}]
-const users = [{id: 1226459377395660, timezone: 3}]
+const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezone: 1}]
+// const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
   // can be customized later
@@ -154,21 +154,21 @@ app.get('/trigger', (req, res) => {
     }
   }
 
+  const messageTime = 9
   let d = new Date()
-  let n = d.getHours()
-  console.log(`Time: ${n}`)
+  let curHour = d.getHours()
+  console.log(`Time: ${curHour}`)
   for (var i = 0; i < users.length; i++) {
-    console.log(`Time + timezone: ${n + users[i].timezone}`)
-    if (users[i].timezone === 3) {
+    console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
+    if ((curHour + users[i].timezone) % 24 === messageTime) {
+      console.log(`Sending message to ${users[i].id}: ${text}`)
       bot.sendMessage(users[i].id, message, (err) => {
         if (err) throw err
-
-        console.log(JSON.stringify(users[i]))
-        // console.log(`Sent message to ${users[i].id}: ${text}`)
-        res.end(JSON.stringify({status: 'ok'}))
       })
     }
   }
+  // after all users processed?
+  res.end(JSON.stringify({status: 'ok'}))
 })
 
 app.post('/', (req, res) => {

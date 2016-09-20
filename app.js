@@ -28,9 +28,13 @@ bot.on('delivery', (payload, reply) => {
 })
 
 bot.on('message', (payload, reply) => {
-  let text = payload.message.text.toLowerCase()
+  let text = payload.message.text
   console.log(text)
-  let index = topics.indexOf(text)
+  let index = -1
+  if (text > '') {
+    text = text.toLowerCase()
+    index = topics.indexOf(text)
+  }
   console.log(`${text}: ${index} in topics`)
 
   bot.getProfile(payload.sender.id, (err, profile) => {

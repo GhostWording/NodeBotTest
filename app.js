@@ -125,6 +125,33 @@ app.get('/', (req, res) => {
   return bot._verify(req, res)
 })
 
+app.get('/trigger', (req, res) => {
+  // just a demo
+  let text = `Some text on ${text}`
+  let image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
+  // title (80 character limit), image_url
+  let message = {
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"generic",
+        "elements":[
+          {
+            "title":text,
+            "image_url":image
+          }
+        ]
+      }
+    }
+  }
+  bot.sendMessage(1226459377395660, message, (err) => {
+    if (err) throw err
+
+    console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+    res.end(JSON.stringify({status: 'ok'}))
+  })
+})
+
 app.post('/', (req, res) => {
   bot._handleMessage(req.body)
   res.end(JSON.stringify({status: 'ok'}))

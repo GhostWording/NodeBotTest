@@ -147,7 +147,7 @@ app.get('/trigger', (req, res) => {
   bot.sendMessage(1226459377395660, message, (err) => {
     if (err) throw err
 
-    console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+    console.log(`Sent message to ${1226459377395660}: ${text}`)
     res.end(JSON.stringify({status: 'ok'}))
   })
 })

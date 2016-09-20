@@ -23,7 +23,8 @@ bot.on('authentication', (payload, reply) => {
 })
 
 bot.on('delivery', (payload, reply) => {
-  console.log(`Delivered: ${payload}`)
+  let strPayload = JSON.stringify(payload)
+  console.log(`Delivered: ${strPayload}`)
 })
 
 bot.on('message', (payload, reply) => {

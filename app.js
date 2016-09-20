@@ -28,37 +28,59 @@ bot.on('message', (payload, reply) => {
     if (err) throw err
 
     let image = ''
+    let message
     console.log(`User ${profile.first_name} ${profile.last_name}: ${profile.locale}, ${profile.timezone}`)
     if (index > -1) {
       text = `Some text on ${text}`
       image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       // and add a pic
+      // title (80 character limit), image_url
+      message = {
+        "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"generic",
+            "elements":[
+              {
+                "title":text,
+                // "item_url":"https://petersfancybrownhats.com",
+                "image_url":image
+                // ,
+                // "subtitle":"We\'ve got the right hat for everyone.",
+                // "buttons":[
+                // ]
+              }
+            ]
+          }
+        }
+      }
     } else {
       let allTopics = topics.join(', ')
       text = `I have nothing on ${text}\nTry any of ${allTopics}.`
+      message = { text }
     }
 
-    reply({ text }, (err) => {
+    reply(message, (err) => {
       if (err) throw err
 
       console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
     })
-    if (image > '') {
-      let imageMessage = {
-        "attachment":{
-          "type":"image",
-             "payload":{
-                "url":image,
-                "is_reusable":true
-             }
-        }
-      }
-      reply(imageMessage, (err) => {
-        if (err) throw err
+    // if (image > '') {
+    //   let imageMessage = {
+    //     "attachment":{
+    //       "type":"image",
+    //          "payload":{
+    //             "url":image,
+    //             "is_reusable":true
+    //          }
+    //     }
+    //   }
+    //   reply(imageMessage, (err) => {
+    //     if (err) throw err
 
-        console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
-      })      
-    }
+    //     console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
+    //   })      
+    // }
 
 
   })

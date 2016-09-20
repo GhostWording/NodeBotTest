@@ -131,7 +131,8 @@ app.get('/', (req, res) => {
 })
 
 // temporarily
-const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezone: 1}]
+// const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezone: 1}]
+const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
   // can be customized later
@@ -162,7 +163,8 @@ app.get('/trigger', (req, res) => {
       bot.sendMessage(users[i].id, message, (err) => {
         if (err) throw err
 
-        console.log(`Sent message to ${users[i].id}: ${text}`)
+        console.log(JSON.stringify(users[i]))
+        // console.log(`Sent message to ${users[i].id}: ${text}`)
         res.end(JSON.stringify({status: 'ok'}))
       })
     }

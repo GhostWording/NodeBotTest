@@ -167,6 +167,12 @@ app.get('/trigger', (req, res) => {
         if (err) throw err
       })
     }
+    if ((curHour + users[i].timezone) % 24 === 17) {
+      console.log(`Sending message to ${users[i].id}: ${text}`)
+      bot.sendMessage(users[i].id, {'Good afternoon'}, (err) => {
+        if (err) throw err
+      })
+    }
   }
   // after all users processed?
   res.end(JSON.stringify({status: 'ok'}))

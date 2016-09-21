@@ -153,8 +153,24 @@ app.get('/trigger', (req, res) => {
       }
     }
   }
+  let text2 = `Good evening`
+  let message2 = {
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"generic",
+        "elements":[
+          {
+            "title":text2,
+            "image_url":image
+          }
+        ]
+      }
+    }
+  }
 
   const messageTime = 9
+  const messageTime2 = 18
   let d = new Date()
   // let curHour = d.getHours()
   let curHour = d.getUTCHours()
@@ -167,19 +183,12 @@ app.get('/trigger', (req, res) => {
         if (err) throw err
       })
     }
-    if ((curHour + users[i].timezone) % 24 === 17) {
-      console.log(`Sending message to ${users[i].id}: ${text}`)
-      bot.sendMessage(users[i].id, message, (err) => {
+    if ((curHour + users[i].timezone) % 24 === messageTime2) {
+      console.log(`Sending message to ${users[i].id}: ${text2}`)
+      bot.sendMessage(users[i].id, message2, (err) => {
         if (err) throw err
       })
     }
-    // if ((curHour + users[i].timezone) % 24 === 17) {
-    //   text = `Good afternoon`
-    //   console.log(`Sending message to ${users[i].id}: ${text}`)
-    //   bot.sendMessage(users[i].id, { text }, (err) => {
-    //     if (err) throw err
-    //   })
-    // }
   }
   // after all users processed?
   res.end(JSON.stringify({status: 'ok'}))

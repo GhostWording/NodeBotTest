@@ -52,7 +52,7 @@ bot.on('message', (payload, reply) => {
     let message
     console.log(`User ${profile.first_name} ${profile.last_name}: ${payload.sender.id} ${profile.locale}, ${profile.timezone}`)
     if (indexAPI > -1) {
-      getRandomCard(text, (strContent, strImageLink) => {
+      api.getRandomCard(text, (strContent, strImageLink) => {
         let imageMessage = {
           "attachment":{
             "type":"image",

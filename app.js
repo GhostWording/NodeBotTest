@@ -6,7 +6,9 @@ const Bot = require('messenger-bot')
 const express = require('express')
 const bodyParser = require('body-parser')
 
+var api = require('./api');
 const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
+const topicsAPI = ['status', 'love']
 // const intentions = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 
 // todo: move tokens to env vars later
@@ -38,6 +40,7 @@ bot.on('message', (payload, reply) => {
   if (text > '') {
     text = text.toLowerCase()
     index = topics.indexOf(text)
+    indexAPI = topicsAPI.indexOf(text)
   }
   console.log(`${text}: ${index} in topics`)
 
@@ -47,7 +50,30 @@ bot.on('message', (payload, reply) => {
     let image = ''
     let message
     console.log(`User ${profile.first_name} ${profile.last_name}: ${payload.sender.id} ${profile.locale}, ${profile.timezone}`)
-    if (index > -1) {
+    if (indexAPI > -1) {
+      getRandomCard(text, (strContent, strImageLink) => {
+        let imageMessage = {
+          "attachment":{
+            "type":"image",
+            "payload":{
+              "url":strImageLink
+            }
+          }
+        }
+        reply(imageMessage, (err) => {
+          if (err) throw err
+
+          console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
+
+          // 320 character limit
+          reply({ strContent }, (err) => {
+            if (err) throw err
+
+            console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+          })
+        })      
+      })
+    } else if (index > -1) {
       text = `Some text on ${text}`
       image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       let imageMessage = {

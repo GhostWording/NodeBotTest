@@ -67,7 +67,7 @@ bot.on('message', (payload, reply) => {
           console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
 
           // 320 character limit
-          reply({ strContent }, (err) => {
+          reply({ text: strContent }, (err) => {
             if (err) throw err
 
             console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)

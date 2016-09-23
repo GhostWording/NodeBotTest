@@ -37,6 +37,7 @@ bot.on('message', (payload, reply) => {
   console.log(text)
   console.log(JSON.stringify(payload.message))
   let index = -1
+  let indexAPI = -1
   if (text > '') {
     text = text.toLowerCase()
     index = topics.indexOf(text)

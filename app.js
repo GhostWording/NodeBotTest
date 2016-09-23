@@ -162,61 +162,43 @@ const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezo
 // const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
-  // can be customized later
-  let text = `Good morning`
-  let image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
-  // title (80 character limit), image_url
-  let message = {
-    "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"generic",
-        "elements":[
-          {
-            "title":text,
-            "image_url":image
-          }
-        ]
-      }
-    }
-  }
-  let text2 = `Good evening`
-  let message2 = {
-    "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"generic",
-        "elements":[
-          {
-            "title":text2,
-            "image_url":image
-          }
-        ]
-      }
-    }
-  }
-
   const messageTime = 9
-  const messageTime2 = 18
   let d = new Date()
   // let curHour = d.getHours()
   let curHour = d.getUTCHours()
   console.log(`Time: ${curHour}`)
-  for (var i = 0; i < users.length; i++) {
-    console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
-    if ((curHour + users[i].timezone) % 24 === messageTime) {
-      console.log(`Sending message to ${users[i].id}: ${text}`)
-      bot.sendMessage(users[i].id, message, (err) => {
-        if (err) throw err
-      })
+
+  let text = `status`
+  api.getRandomCard(text, (strContent, strImageLink) => {
+    let imageMessage = {
+      "attachment":{
+        "type":"image",
+        "payload":{
+          "url":strImageLink
+        }
+      }
     }
-    if ((curHour + users[i].timezone) % 24 === messageTime2) {
-      console.log(`Sending message to ${users[i].id}: ${text2}`)
-      bot.sendMessage(users[i].id, message2, (err) => {
-        if (err) throw err
-      })
+
+    for (var i = 0; i < users.length; i++) {
+      console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
+      if ((curHour + users[i].timezone) % 24 === messageTime) {
+        console.log(`Sending message to ${users[i].id}: ${strContent}`)
+
+        bot.sendMessage(users[i].id, imageMessage, (err) => {
+          if (err) throw err
+
+          console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
+
+          bot.sendMessage(users[i].id, {text: strContent}, (err) => {
+            if (err) throw err
+
+            console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+          })
+        })
+      }
     }
-  }
+  })
+
   // after all users processed?
   res.end(JSON.stringify({status: 'ok'}))
 })

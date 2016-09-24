@@ -53,6 +53,8 @@ bot.on('message', (payload, reply) => {
     console.log(`User ${profile.first_name} ${profile.last_name}: ${payload.sender.id} ${profile.locale}, ${profile.timezone}`)
     if (indexAPI > -1) {
       api.getRandomCard(text, (strContent, strImageLink) => {
+        sendComboMessage(payload.sender.id, strContent, strImageLink)
+/*
         let imageMessage = {
           "attachment":{
             "type":"image",
@@ -73,8 +75,13 @@ bot.on('message', (payload, reply) => {
             console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
           })
         })      
+*/
       })
     } else if (index > -1) {
+      let strContent = `Some text on ${text}`
+      let strImageLink = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
+      sendComboMessage(payload.sender.id, strContent, strImageLink)
+/*
       text = `Some text on ${text}`
       image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       let imageMessage = {
@@ -96,7 +103,8 @@ bot.on('message', (payload, reply) => {
 
           console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
         })
-      })      
+      })
+*/
     } else if (text === 'test') {
       // just a demo
       text = `Some text on ${text}`
@@ -116,10 +124,6 @@ bot.on('message', (payload, reply) => {
           }
         }
       }
-      // message = {
-      //   "text":"New text",
-      //   "attachments":[{"type":"image","payload":{"url":"https://scontent.xx.fbcdn.net/v/t34.0-12/14445553_1207487709308218_381676705_n.jpg?_nc_ad=z-m&oh=207e477f61a2306011e1827a576273d6&oe=57E437AC"}}]
-      // }
       reply(message, (err) => {
         if (err) throw err
 
@@ -163,7 +167,7 @@ const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezo
 
 app.get('/trigger', (req, res) => {
   // const messageTime = 9
-  const messageTime = 14
+  const messageTime = 15
   let d = new Date()
   // let curHour = d.getHours()
   let curHour = d.getUTCHours()
@@ -172,7 +176,6 @@ app.get('/trigger', (req, res) => {
   let text = `status`
   api.getRandomCard(text, (strContent, strImageLink) => {
     for (var i = 0; i < users.length; i++) {
-      var userId = users[i].id
       console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
       if ((curHour + users[i].timezone) % 24 === messageTime) {
         console.log(`Sending message to ${users[i].id}: ${strContent}`)
@@ -195,6 +198,7 @@ http.createServer(app).listen(port)
 console.log('Echo bot server running at port ' + port)
 
 function sendComboMessage(userId, strContent, strImageLink) {
+  // ToDo: check for empty strImageLink
   let imageMessage = {
     "attachment":{
       "type":"image",

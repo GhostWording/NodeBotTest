@@ -186,11 +186,12 @@ app.get('/trigger', (req, res) => {
       if ((curHour + users[i].timezone) % 24 === messageTime) {
         console.log(`Sending message to ${users[i].id}: ${strContent}`)
 
-        bot.sendMessage(users[i].id, {text: strContent}, (err) => {
+        bot.sendMessage(users[i].id, {text: strContent}, (err, info) => {
         // bot.sendMessage(users[i].id, imageMessage, (err) => {
           if (err) throw err
 
-          console.log(`Sent an image to id ${userId}`)
+          console.log(`sendMessage info: ${JSON.stringify(info)}`)
+          // console.log(`Sent an image to id ${userId}`)
 
           // bot.sendMessage(users[i].id, {text: strContent}, (err) => {
           //   if (err) throw err

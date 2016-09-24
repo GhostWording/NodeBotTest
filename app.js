@@ -186,18 +186,18 @@ app.get('/trigger', (req, res) => {
       if ((curHour + users[i].timezone) % 24 === messageTime) {
         console.log(`Sending message to ${users[i].id}: ${strContent}`)
 
-        bot.sendMessage(users[i].id, {text: strContent}, (err, info) => {
-        // bot.sendMessage(users[i].id, imageMessage, (err) => {
+        // bot.sendMessage(users[i].id, {text: strContent}, (err, info) => {
+        bot.sendMessage(users[i].id, imageMessage, (err, info) => {
           if (err) throw err
 
-          console.log(`sendMessage info: ${JSON.stringify(info)}`)
-          // console.log(`Sent an image to id ${userId}`)
+          console.log(`Sent an image to id ${info.recipient_id}`)
 
-          // bot.sendMessage(users[i].id, {text: strContent}, (err) => {
-          //   if (err) throw err
+          bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
+            if (err) throw err
 
-          //   console.log(`Sent message to id ${users[i].id}: ${text}`)
-          // })
+            console.log(`Sent message to id ${info.recipient_id}: ${text}`)
+            console.log(`sendMessage info: ${JSON.stringify(info)}`)
+          })
         })
       }
     }

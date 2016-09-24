@@ -9,7 +9,6 @@ const bodyParser = require('body-parser')
 var api = require('./api');
 const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 const topicsAPI = ['status', 'love']
-// const intentions = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 
 // todo: move tokens to env vars later
 let bot = new Bot({
@@ -54,84 +53,22 @@ bot.on('message', (payload, reply) => {
     if (indexAPI > -1) {
       api.getRandomCard(text, (strContent, strImageLink) => {
         sendComboMessage(payload.sender.id, strContent, strImageLink)
-/*
-        let imageMessage = {
-          "attachment":{
-            "type":"image",
-            "payload":{
-              "url":strImageLink
-            }
-          }
-        }
-        reply(imageMessage, (err) => {
-          if (err) throw err
-
-          console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
-
-          // 320 character limit
-          reply({ text: strContent }, (err) => {
-            if (err) throw err
-
-            console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
-          })
-        })      
-*/
       })
     } else if (index > -1) {
       let strContent = `Some text on ${text}`
       let strImageLink = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       sendComboMessage(payload.sender.id, strContent, strImageLink)
-/*
-      text = `Some text on ${text}`
-      image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
-      let imageMessage = {
-        "attachment":{
-          "type":"image",
-          "payload":{
-            "url":image
-          }
-        }
-      }
-      reply(imageMessage, (err) => {
-        if (err) throw err
-
-        console.log(`Sent an image to ${profile.first_name} ${profile.last_name}`)
-
-        // 320 character limit
-        reply({ text }, (err) => {
-          if (err) throw err
-
-          console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
-        })
-      })
-*/
     } else if (text === 'test') {
       // just a demo
-      text = `Some text on ${text}`
-      image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
-      // title (80 character limit), image_url
-      message = {
-        "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"generic",
-            "elements":[
-              {
-                "title":text,
-                "image_url":image
-              }
-            ]
-          }
-        }
-      }
-      reply(message, (err) => {
+      text = 'User:\n\n' + JSON.stringify(payload.sender) + '\n\n---\n\n' + JSON.stringify(profile)
+      reply({text}, (err) => {
         if (err) throw err
 
         console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
       })
     } else {
       let allTopics = topics.join(', ')
-      text = `I have nothing on ${text}\nTry any of ${allTopics}.`
+      text = `I have nothing on ${text | 'this'}\nTry any of ${allTopics}.`
       message = { text }
 
       reply(message, (err) => {
@@ -140,15 +77,8 @@ bot.on('message', (payload, reply) => {
         console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
       })
     }
-
-    // if (image > '') {
-    // }
   })
 })
-
-var port = process.env.port || 3000
-// http.createServer(bot.middleware()).listen(port)
-// console.log('Echo bot server running at port ' + port)
 
 let app = express()
 
@@ -167,7 +97,7 @@ const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezo
 
 app.get('/trigger', (req, res) => {
   // const messageTime = 9
-  const messageTime = 15
+  const messageTime = 16
   let d = new Date()
   // let curHour = d.getHours()
   let curHour = d.getUTCHours()
@@ -194,11 +124,14 @@ app.post('/', (req, res) => {
   res.end(JSON.stringify({status: 'ok'}))
 })
 
+var port = process.env.port || 3000
 http.createServer(app).listen(port)
-console.log('Echo bot server running at port ' + port)
+console.log('Good morning bot server running at port ' + port)
 
 function sendComboMessage(userId, strContent, strImageLink) {
   // ToDo: check for empty strImageLink
+  // if (strImageLink > '') {
+  // }
   let imageMessage = {
     "attachment":{
       "type":"image",

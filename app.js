@@ -163,7 +163,7 @@ const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezo
 
 app.get('/trigger', (req, res) => {
   // const messageTime = 9
-  const messageTime = 13
+  const messageTime = 14
   let d = new Date()
   // let curHour = d.getHours()
   let curHour = d.getUTCHours()
@@ -171,34 +171,13 @@ app.get('/trigger', (req, res) => {
 
   let text = `status`
   api.getRandomCard(text, (strContent, strImageLink) => {
-    let imageMessage = {
-      "attachment":{
-        "type":"image",
-        "payload":{
-          "url":strImageLink
-        }
-      }
-    }
-
     for (var i = 0; i < users.length; i++) {
       var userId = users[i].id
       console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
       if ((curHour + users[i].timezone) % 24 === messageTime) {
         console.log(`Sending message to ${users[i].id}: ${strContent}`)
+        sendComboMessage(users[i].id, strContent, strImageLink)
 
-        // bot.sendMessage(users[i].id, {text: strContent}, (err, info) => {
-        bot.sendMessage(users[i].id, imageMessage, (err, info) => {
-          if (err) throw err
-
-          console.log(`Sent an image to id ${info.recipient_id}`)
-
-          bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
-            if (err) throw err
-
-            console.log(`Sent message to id ${info.recipient_id}: ${text}`)
-            console.log(`sendMessage info: ${JSON.stringify(info)}`)
-          })
-        })
       }
     }
   })
@@ -214,3 +193,26 @@ app.post('/', (req, res) => {
 
 http.createServer(app).listen(port)
 console.log('Echo bot server running at port ' + port)
+
+function sendComboMessage(userId, strContent, strImageLink) {
+  let imageMessage = {
+    "attachment":{
+      "type":"image",
+      "payload":{
+        "url":strImageLink
+      }
+    }
+  }
+  bot.sendMessage(userId, imageMessage, (err, info) => {
+    if (err) throw err
+
+    console.log(`Sent an image to id ${info.recipient_id}`)
+
+    bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
+      if (err) throw err
+
+      console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
+      console.log(`sendMessage info: ${JSON.stringify(info)}`)
+    })
+  })
+}

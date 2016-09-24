@@ -6,7 +6,9 @@ const Bot = require('messenger-bot')
 const express = require('express')
 const bodyParser = require('body-parser')
 
-var api = require('./api');
+const db = require('./db')
+
+const api = require('./api')
 const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 const topicsAPI = ['status', 'love']
 
@@ -110,7 +112,7 @@ app.get('/trigger', (req, res) => {
   api.getRandomCard(text, (strContent, strImageLink) => {
     for (var i = 0; i < users.length; i++) {
       console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
-      if ((curHour + users[i].timezone) % 24 === messageTime) {
+      if ((24 + curHour + users[i].timezone) % 24 === messageTime) {
         console.log(`Sending message to ${users[i].id}: ${strContent}`)
         sendComboMessage(users[i].id, strContent, strImageLink)
 

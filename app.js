@@ -163,7 +163,7 @@ const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezo
 
 app.get('/trigger', (req, res) => {
   // const messageTime = 9
-  const messageTime = 12
+  const messageTime = 13
   let d = new Date()
   // let curHour = d.getHours()
   let curHour = d.getUTCHours()
@@ -185,16 +185,17 @@ app.get('/trigger', (req, res) => {
       if ((curHour + users[i].timezone) % 24 === messageTime) {
         console.log(`Sending message to ${users[i].id}: ${strContent}`)
 
-        bot.sendMessage(users[i].id, imageMessage, (err) => {
+        bot.sendMessage(users[i].id, {text: strContent}, (err) => {
+        // bot.sendMessage(users[i].id, imageMessage, (err) => {
           if (err) throw err
 
           console.log(`Sent an image to id ${users[i].id}`)
 
-          bot.sendMessage(users[i].id, {text: strContent}, (err) => {
-            if (err) throw err
+          // bot.sendMessage(users[i].id, {text: strContent}, (err) => {
+          //   if (err) throw err
 
-            console.log(`Sent message to id ${users[i].id}: ${text}`)
-          })
+          //   console.log(`Sent message to id ${users[i].id}: ${text}`)
+          // })
         })
       }
     }

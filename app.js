@@ -32,6 +32,7 @@ bot.on('delivery', (payload, reply) => {
 })
 
 bot.on('message', (payload, reply) => {
+  reply({"sender_action":"typing_on"})
   let text = payload.message.text
   console.log(text)
   console.log(JSON.stringify(payload.message))
@@ -60,7 +61,7 @@ bot.on('message', (payload, reply) => {
       sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'test') {
       // just a demo
-      text = 'User:\n\n' + JSON.stringify(payload.sender) + '\n\n---\n\n' + JSON.stringify(profile)
+      text = 'User: ' + JSON.stringify(payload.sender) + '\n---\n' + JSON.stringify(profile)
       reply({text}, (err) => {
         if (err) throw err
 
@@ -68,7 +69,10 @@ bot.on('message', (payload, reply) => {
       })
     } else {
       let allTopics = topics.join(', ')
-      text = `I have nothing on ${text | 'this'}\nTry any of ${allTopics}.`
+      if (text === 'undefined') {
+        text = 'this'
+      }
+      text = `I have nothing on ${text}\nTry any of ${allTopics}.`
       message = { text }
 
       reply(message, (err) => {

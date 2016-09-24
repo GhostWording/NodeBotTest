@@ -32,7 +32,6 @@ bot.on('delivery', (payload, reply) => {
 })
 
 bot.on('message', (payload, reply) => {
-  reply({"sender_action":"typing_on"})
   let text = payload.message.text
   console.log(text)
   console.log(JSON.stringify(payload.message))
@@ -69,7 +68,7 @@ bot.on('message', (payload, reply) => {
       })
     } else {
       let allTopics = topics.join(', ')
-      if (text === 'undefined') {
+      if (text === undefined) {
         text = 'this'
       }
       text = `I have nothing on ${text}\nTry any of ${allTopics}.`

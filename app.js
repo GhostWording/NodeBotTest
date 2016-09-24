@@ -12,9 +12,9 @@ const topicsAPI = ['status', 'love']
 
 // todo: move tokens to env vars later
 let bot = new Bot({
-  token: 'EAAYHoXEAtwgBAPHZAWfJvzxua4NgEzrueZBdiJOVKdU4LzJZCYilbj8WTzuD0XY6lt8lhhnzBcsVaZCLMcgs3Sv1cyeEItDZCfM1qzEUoCkC4hw8NaZBN1oZCqbwaeJQMwZBOKPGsGISFeramAReh6ONri2mv0W1AFZBOZALQ0A1HkFAZDZD', // 'PAGE_TOKEN',
-  verify: 'BAPHZAWfJvzxua4NgEzrueZBdiJOVKd', // 'VERIFY_TOKEN',
-  app_secret: '72d4ba4ee8b9eb5df4e81597012fa823', // 'APP_SECRET'
+  token: process.env.PAGE_TOKEN,
+  verify: process.env.VERIFY_TOKEN,
+  app_secret: process.env.APP_SECRET
 })
 
 bot.on('error', (err) => {
@@ -100,7 +100,7 @@ const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezo
 
 app.get('/trigger', (req, res) => {
   // const messageTime = 9
-  const messageTime = 16
+  const messageTime = 18
   let d = new Date()
   // let curHour = d.getHours()
   let curHour = d.getUTCHours()

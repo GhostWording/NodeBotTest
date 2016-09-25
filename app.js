@@ -58,7 +58,12 @@ bot.on('message', (payload, reply) => {
     let image = ''
     let message
     console.log(`User ${profile.first_name} ${profile.last_name}: ${payload.sender.id} ${profile.locale}, ${profile.timezone}`)
-    if (indexLng > -1) {
+    if (text === 'help') {
+      // 'help' in other languages?
+      // description of the bot?
+      // list of topics
+      // list of languages?
+    } else if (indexLng > -1) {
       changeLanguage(payload.sender.id, text)
     } else if (indexAPI > -1) {
       api.getRandomCard(text, (strContent, strImageLink) => {
@@ -174,6 +179,7 @@ app.get('/trigger', (req, res) => {
   let text = `status`
   api.getRandomCard(text, (strContent, strImageLink) => {
     db.getUsers((users) => {
+      // add ORDER BY language to the SQL query, then check for language in the loop and getRandomCard when it changes
       console.log(`users.length: ${users.length}`)
       console.log(`users[0]: ${JSON.stringify(users[0])}`)
       for (var i = 0; i < users.length; i++) {

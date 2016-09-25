@@ -125,6 +125,8 @@ app.get('/trigger', (req, res) => {
   let text = `status`
   api.getRandomCard(text, (strContent, strImageLink) => {
     db.getUsers((users) => {
+      console.log(`users.length: ${users.length}`)
+      console.log(`users[0]: ${users[0]}`)
       for (var i = 0; i < users.length; i++) {
         console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
         if ((24 + curHour + users[i].timezone) % 24 === messageTime) {

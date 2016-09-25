@@ -8,9 +8,11 @@ var connection = null
 
 function connect () {
   // check if already connected 
-  if (connection != null) {
-    return
-  }
+  console.log(`connection: ${connection}`)
+  console.log(`connection: ${JSON.stringify(connection)}`)
+  // if (connection != null) {
+  //   return
+  // }
   let conInfo = {}
   MYSQLCONNSTR.split(';').map((pair) => {
     let parts = pair.split('=')

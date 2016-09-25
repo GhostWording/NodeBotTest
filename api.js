@@ -18,9 +18,11 @@ module.exports = {
       let strImageLink = ''
       if (!error && response.statusCode == 200) {
         strContent = ''
-        var objBody = JSON.parse(body)
-        strContent = objBody['Content']
-        strImageLink = objBody['ImageLink']
+        if (body > '') {
+          let objBody = JSON.parse(body)
+          strContent = objBody['Content']
+          strImageLink = objBody['ImageLink']
+        }
       } else {
         strContent = 'Error\n\n' + JSON.stringify(response) + '\n\n---\n\n' + JSON.stringify(error)
       }

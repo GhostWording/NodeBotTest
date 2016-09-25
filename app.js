@@ -59,6 +59,28 @@ bot.on('message', (payload, reply) => {
       let strContent = `Some text on ${text}`
       let strImageLink = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       sendComboMessage(payload.sender.id, strContent, strImageLink)
+    } else if (text === 'language') {
+      text = `Do you want to change language?`
+      message = {
+        "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"generic",
+            "elements":[
+              {
+                "title":text
+                // ,
+                // "image_url":image
+              }
+            ]
+          }
+        }
+      }
+      reply(message, (err) => {
+        if (err) throw err
+
+        console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+      })
     } else if (text === 'test') {
       // just a demo
       // text = 'User: ' + JSON.stringify(payload.sender) + '\n---\n' + JSON.stringify(profile)
@@ -76,7 +98,7 @@ bot.on('message', (payload, reply) => {
       //   })
       // })
       db.getUsers((info) => {
-        reply({text: info}, (err) => {
+        reply({text: JSON.stringify(info)}, (err) => {
           if (err) throw err
 
           console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${info}`)
@@ -110,8 +132,7 @@ app.get('/', (req, res) => {
   return bot._verify(req, res)
 })
 
-// temporarily
-// const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezone: 1}]
+// for testing
 // const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
@@ -126,13 +147,12 @@ app.get('/trigger', (req, res) => {
   api.getRandomCard(text, (strContent, strImageLink) => {
     db.getUsers((users) => {
       console.log(`users.length: ${users.length}`)
-      console.log(`users[0]: ${users[0]}`)
+      console.log(`users[0]: ${JSON.stringify(users[0])}`)
       for (var i = 0; i < users.length; i++) {
         console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
         if ((24 + curHour + users[i].timezone) % 24 === messageTime) {
           console.log(`Sending message to ${users[i].id}: ${strContent}`)
           sendComboMessage(users[i].id, strContent, strImageLink)
-
         }
       }
     })

@@ -75,7 +75,7 @@ bot.on('message', (payload, reply) => {
       sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'language') {
       // text = `Do you want to change language?`
-      text = `Other languages? ¿Otros idiomas? Autres langues?`
+      text = `Other languages?\n¿Otros idiomas?\nAutres langues?`
       // text (320 character limit)
       message = {
         "attachment":{
@@ -234,12 +234,20 @@ function sendComboMessage(userId, strContent, strImageLink) {
 function changeLanguage(userId, strLanguage) {
   // en-EN, English, ENGLISH ? text and postback
   console.log(`changeLanguage: ${strLanguage}`)
-  let lng = strLanguage.toLowerCase().substring(0, 2)
+  let lng = strLanguage.substring(0, 2).toLowerCase()
   let lngCode = languageCodes[lng]
   let lngName = languageNames[lngCode]
-  bot.sendMessage(userId, {text: `Language changed to ${lng}, ${lngCode}: ${lngName}`}, (err, info) => {
-    if (err) throw err
-    console.log(`sendMessage info: ${JSON.stringify(info)}`)
+  db.setLanguage(userId, lngCode, (info) => {
+    bot.sendMessage(userId, {text: `Language changed to ${lngName}`}, (err, info) => {
+      if (err) throw err
+      console.log(`sendMessage info: ${JSON.stringify(info)}`)
+      // add a list of topics in the language (2do)
+      let allTopics = topics.join(', ')
+      let text = `Try any of ${allTopics}.`
+      bot.sendMessage(userId, {text}, (err, info) => {
+        if (err) throw err
+        console.log(`sendMessage info: ${JSON.stringify(info)}`)
+      })
+    })
   })
-  // add a list of topics in the language
 }

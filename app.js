@@ -60,7 +60,7 @@ bot.on('message', (payload, reply) => {
       let strImageLink = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'language') {
-      text = `Do you want to change language?`
+      // text = `Do you want to change language?`
       message = {
         "attachment":{
           "type":"template",
@@ -68,7 +68,7 @@ bot.on('message', (payload, reply) => {
             "template_type":"generic",
             "elements":[
               {
-                "title":text
+                "title":"text"
                 // ,
                 // "image_url":image
               }

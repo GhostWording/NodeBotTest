@@ -22,7 +22,7 @@ MYSQLCONNSTR.split(';').map((pair) => {
 })
 
 const mysql = require('mysql2')
-var connection = mysql.createConnection(conInfo)
+// var connection = mysql.createConnection(conInfo)
 
 module.exports = {
   getInfo: function (callback) {
@@ -31,10 +31,11 @@ module.exports = {
   }
   ,
   getUsers: function (callback) {
+    var connection = mysql.createConnection(conInfo)
     connection.query('SELECT id, timezone FROM user', function (err, rows) {
       console.log(rows)
-      // callback(JSON.stringify(rows))
       callback(rows)
+      connection.end()
     });
   }
 }

@@ -111,7 +111,7 @@ app.get('/', (req, res) => {
 })
 
 // temporarily
-const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezone: 1}]
+// const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezone: 1}]
 // const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
@@ -124,14 +124,16 @@ app.get('/trigger', (req, res) => {
 
   let text = `status`
   api.getRandomCard(text, (strContent, strImageLink) => {
-    for (var i = 0; i < users.length; i++) {
-      console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
-      if ((24 + curHour + users[i].timezone) % 24 === messageTime) {
-        console.log(`Sending message to ${users[i].id}: ${strContent}`)
-        sendComboMessage(users[i].id, strContent, strImageLink)
+    db.getUsers((users) => {
+      for (var i = 0; i < users.length; i++) {
+        console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
+        if ((24 + curHour + users[i].timezone) % 24 === messageTime) {
+          console.log(`Sending message to ${users[i].id}: ${strContent}`)
+          sendComboMessage(users[i].id, strContent, strImageLink)
 
+        }
       }
-    }
+    })
   })
 
   // after all users processed?

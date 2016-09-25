@@ -8,9 +8,9 @@ var connection
 
 function connect () {
   // check if already connected 
-  if (connection != null) {
-    return
-  }
+  // if (connection != null) {
+  //   return
+  // }
   let conInfo = {}
   MYSQLCONNSTR.split(';').map((pair) => {
     let parts = pair.split('=')

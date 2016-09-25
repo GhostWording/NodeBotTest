@@ -130,6 +130,10 @@ bot.on('message', (payload, reply) => {
   })
 })
 
+bot.on('postback', (payload, reply) => {
+  reply({ text: JSON.stringify(payload)}, (err, info) => {})
+})
+
 let app = express()
 
 app.use(bodyParser.json())

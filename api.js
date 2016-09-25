@@ -6,7 +6,7 @@ const urlRandomCard = 'http://api.cvd.io/popular/stickers/randomCard/forKeyword/
 module.exports = {
   getRandomCard: function (keyword, language, callback) {
     var options = {
-      url: urlRandomCard + keyword, // url-encode keyword
+      url: urlRandomCard + encodeURIComponent(keyword),
       headers: {
         'Accept': 'application/json',
         'Accept-Language': language

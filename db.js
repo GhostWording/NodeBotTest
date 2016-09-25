@@ -62,7 +62,6 @@ module.exports = {
   ,
   getLanguage: function (id, callback) {
     connect()
-    connection.query('SELECT language FROM user', function (err, rows) {
     connection.execute('SELECT language FROM user WHERE id = ?', [id], function (err, rows) {
       if (err) throw err
       console.log(rows)

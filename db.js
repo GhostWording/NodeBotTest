@@ -4,13 +4,13 @@ const MYSQLCONNSTR = process.env.MYSQLCONNSTR_localdb
 
 const mysql = require('mysql2')
 // var connection = mysql.createConnection(conInfo)
-var connection
+var connection = null
 
 function connect () {
   // check if already connected 
-  // if (connection != null) {
-  //   return
-  // }
+  if (connection != null) {
+    return
+  }
   let conInfo = {}
   MYSQLCONNSTR.split(';').map((pair) => {
     let parts = pair.split('=')

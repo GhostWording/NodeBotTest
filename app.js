@@ -14,6 +14,7 @@ const topicsAPI = ['status', 'love']
 
 // const languages = ['english', 'french', 'français', 'spanish', 'español', 'language']
 const languages = ['english', 'french', 'français', 'spanish', 'español']
+const languageNames = {'en-EN': 'English', 'es-ES': 'Español', 'fr-FR': 'Français'}
 
 let bot = new Bot({
   token: process.env.PAGE_TOKEN,
@@ -67,10 +68,9 @@ bot.on('message', (payload, reply) => {
       let strImageLink = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'language') {
-      text = `Do you want to change language?`
-      // text = `Some text on ${text}`
-      image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
-      // title (80 character limit), image_url
+      // text = `Do you want to change language?`
+      text = `Other languages? ¿Otros idiomas? Autres langues?`
+      // text (320 character limit)
       message = {
         "attachment":{
           "type":"template",
@@ -85,13 +85,13 @@ bot.on('message', (payload, reply) => {
               },
               {
                 "type":"postback",
-                "title":"Français",
-                "payload":"FRENCH"
+                "title":"Español",
+                "payload":"SPANISH"
               },
               {
                 "type":"postback",
-                "title":"Español",
-                "payload":"SPANISH"
+                "title":"Français",
+                "payload":"FRENCH"
               },
             ]
           }
@@ -145,7 +145,7 @@ bot.on('message', (payload, reply) => {
 bot.on('postback', (payload, reply) => {
   console.log(`postback: ${JSON.stringify(payload)}`)
   changeLanguage(payload.sender.id, payload.postback.payload)
-  reply({ text: JSON.stringify(payload)}, (err, info) => {})
+  // reply({ text: JSON.stringify(payload)}, (err, info) => {})
 })
 
 let app = express()
@@ -227,7 +227,8 @@ function sendComboMessage(userId, strContent, strImageLink) {
 function changeLanguage(userId, strLanguage) {
   // en-EN, English, ENGLISH ? text and postback
   console.log(`changeLanguage: ${strLanguage}`)
-  bot.sendMessage(userId, {text: `Language changed to ${strLanguage}`}, (err, info) => {
+  let lng = strLanguage.toLowerCase().substring(0, 2)
+  bot.sendMessage(userId, {text: `Language changed to ${lng}: ${strLanguage}`}, (err, info) => {
     if (err) throw err
     console.log(`sendMessage info: ${JSON.stringify(info)}`)
   })

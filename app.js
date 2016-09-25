@@ -10,9 +10,7 @@ const db = require('./db')
 
 const api = require('./api')
 const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
-const topicsAPI = ['status', 'love']
 
-// const languages = ['english', 'french', 'français', 'spanish', 'español', 'language']
 const languages = ['english', 'french', 'français', 'spanish', 'español']
 const languageNames = {'en-EN': 'English', 'es-ES': 'Español', 'fr-FR': 'Français'}
 const languageCodes = {'en': 'en-EN', 'es': 'es-ES', 'sp': 'es-ES', 'fr': 'fr-FR'}
@@ -41,16 +39,11 @@ bot.on('message', (payload, reply) => {
   let text = payload.message.text
   console.log(text)
   console.log(JSON.stringify(payload.message))
-  // let index = -1
-  // let indexAPI = -1
   let indexLng = -1
   if (text > '') {
     text = text.toLowerCase()
-    // index = topics.indexOf(text)
-    // indexAPI = topicsAPI.indexOf(text)
     indexLng = languages.indexOf(text)
   }
-  // console.log(`${text}: ${index} in topics`)
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
@@ -61,18 +54,18 @@ bot.on('message', (payload, reply) => {
     if (text === 'help') {
       // 'help' in other languages?
       // description of the bot?
-      // list of topics
       // list of languages?
+      // add a list of topics in the language (2do)
+
+      // list of topics
+      let allTopics = topics.join(', ')
+      let text = `Try any of ${allTopics}.`
+      bot.sendMessage(userId, {text}, (err, info) => {
+        if (err) throw err
+        console.log(`sendMessage info: ${JSON.stringify(info)}`)
+      })
     } else if (indexLng > -1) {
       changeLanguage(payload.sender.id, text)
-    // } else if (indexAPI > -1) {
-    //   api.getRandomCard(text, (strContent, strImageLink) => {
-    //     sendComboMessage(payload.sender.id, strContent, strImageLink)
-    //   })
-    // } else if (index > -1) {
-    //   let strContent = `Some text on ${text}`
-    //   let strImageLink = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
-    //   sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'language') {
       // text = `Do you want to change language?`
       text = `Other languages?\n¿Otros idiomas?\nAutres langues?`
@@ -109,21 +102,6 @@ bot.on('message', (payload, reply) => {
         console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
       })
     } else if (text === 'test') {
-      // just a demo
-      // text = 'User: ' + JSON.stringify(payload.sender) + '\n---\n' + JSON.stringify(profile)
-      // reply({text}, (err) => {
-      //   if (err) throw err
-
-      //   console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
-      // })
-      // -----
-      // db.getInfo((info) => {
-      //   reply({text: info}, (err) => {
-      //     if (err) throw err
-
-      //     console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${info}`)
-      //   })
-      // })
       db.getUsers((info) => {
         reply({text: JSON.stringify(info)}, (err) => {
           if (err) throw err
@@ -137,18 +115,6 @@ bot.on('message', (payload, reply) => {
           sendComboMessage(payload.sender.id, strContent, strImageLink)
         })
       })
-      // let allTopics = topics.join(', ')
-      // if (text === undefined) {
-      //   text = 'this'
-      // }
-      // text = `I have nothing on ${text}\nTry any of ${allTopics}.`
-      // message = { text }
-
-      // reply(message, (err) => {
-      //   if (err) throw err
-
-      //   console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
-      // })
     }
   })
 })
@@ -255,12 +221,12 @@ function changeLanguage(userId, strLanguage) {
       if (err) throw err
       console.log(`sendMessage info: ${JSON.stringify(info)}`)
       // add a list of topics in the language (2do)
-      let allTopics = topics.join(', ')
-      let text = `Try any of ${allTopics}.`
-      bot.sendMessage(userId, {text}, (err, info) => {
-        if (err) throw err
-        console.log(`sendMessage info: ${JSON.stringify(info)}`)
-      })
+      // let allTopics = topics.join(', ')
+      // let text = `Try any of ${allTopics}.`
+      // bot.sendMessage(userId, {text}, (err, info) => {
+      //   if (err) throw err
+      //   console.log(`sendMessage info: ${JSON.stringify(info)}`)
+      // })
     })
   })
 }

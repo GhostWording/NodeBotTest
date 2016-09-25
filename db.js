@@ -33,7 +33,8 @@ module.exports = {
   getUsers: function (callback) {
     connection.query('SELECT id, timezone FROM user', function (err, rows) {
       console.log(rows)
-      callback(JSON.stringify(rows))
+      // callback(JSON.stringify(rows))
+      callback(rows)
     });
   }
 }

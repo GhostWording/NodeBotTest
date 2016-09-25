@@ -60,7 +60,7 @@ bot.on('message', (payload, reply) => {
       // list of topics
       let allTopics = topics.join(', ')
       let text = `Try any of ${allTopics}.`
-      bot.sendMessage(userId, {text}, (err, info) => {
+      reply({text}, (err, info) => {
         if (err) throw err
         console.log(`sendMessage info: ${JSON.stringify(info)}`)
       })

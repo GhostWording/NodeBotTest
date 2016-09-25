@@ -3,7 +3,7 @@
 const MYSQLCONNSTR = process.env.MYSQLCONNSTR_localdb
 var mysql = require('mysql2');
 // var connection = mysql.createConnection(MYSQLCONNSTR);
-var connection = mysql.createConnection({user: 'azure', database: 'azuredb', password: 'password', host: '127.0.0.1:50616'});
+var connection = mysql.createConnection({user: 'azure', database: 'azuredb', password: 'password', host: '127.0.0.1', port: '50616'});
 
 // connection.query('SELECT 1+1 as test1', function (err, rows) {
 //   //

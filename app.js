@@ -76,6 +76,13 @@ bot.on('message', (payload, reply) => {
           console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${info}`)
         })
       })
+      db.getUsers((info) => {
+        reply({text: info}, (err) => {
+          if (err) throw err
+
+          console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${info}`)
+        })
+      })
     } else {
       let allTopics = topics.join(', ')
       if (text === undefined) {

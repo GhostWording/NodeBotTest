@@ -60,19 +60,26 @@ bot.on('message', (payload, reply) => {
       let strImageLink = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'language') {
-      // text = `Do you want to change language?`
-      text = `Some text on ${text}`
+      text = `Do you want to change language?`
+      // text = `Some text on ${text}`
       image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
       // title (80 character limit), image_url
       message = {
         "attachment":{
           "type":"template",
           "payload":{
-            "template_type":"generic",
-            "elements":[
+            "template_type":"button",
+            "text": text,
+            "buttons":[
               {
-                "title":text,
-                "image_url":image
+                "type":"web_url",
+                "url":"https://petersapparel.parseapp.com",
+                "title":"Show Website"
+              },
+              {
+                "type":"postback",
+                "title":"Start Chatting",
+                "payload":"USER_DEFINED_PAYLOAD"
               }
             ]
           }

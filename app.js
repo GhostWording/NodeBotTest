@@ -230,9 +230,10 @@ function changeLanguage(userId, strLanguage) {
   console.log(`changeLanguage: ${strLanguage}`)
   let lng = strLanguage.toLowerCase().substring(0, 2)
   let lngCode = languageCodes[lng]
-  let lngName = languageNames[lng]
+  let lngName = languageNames[lngCode]
   bot.sendMessage(userId, {text: `Language changed to ${lng}, ${lngCode}: ${lngName}`}, (err, info) => {
     if (err) throw err
     console.log(`sendMessage info: ${JSON.stringify(info)}`)
   })
+  // add a list of topics in the language
 }

@@ -182,9 +182,10 @@ app.get('/trigger', (req, res) => {
   console.log(`Time: ${curHour}`)
 
   let text = `status`
-  api.getRandomCard(text, (strContent, strImageLink) => {
+  // rework in reverse order: first loop through users then getRandomCard with his language
+  api.getRandomCard(text, 'en-EN' (strContent, strImageLink) => {
+    // ToDo: add time calculation before and in getUsers to return only users with needed timezone
     db.getUsers((users) => {
-      // add ORDER BY language to the SQL query, then check for language in the loop and getRandomCard when it changes
       console.log(`users.length: ${users.length}`)
       console.log(`users[0]: ${JSON.stringify(users[0])}`)
       for (var i = 0; i < users.length; i++) {
@@ -196,7 +197,6 @@ app.get('/trigger', (req, res) => {
       }
     })
   })
-
   // after all users processed?
   res.end(JSON.stringify({status: 'ok'}))
 })
@@ -211,29 +211,37 @@ http.createServer(app).listen(port)
 console.log('Good morning bot server running at port ' + port)
 
 function sendComboMessage(userId, strContent, strImageLink) {
-  // ToDo: check for empty strImageLink
-  // if (strImageLink > '') {
-  // }
-  let imageMessage = {
-    "attachment":{
-      "type":"image",
-      "payload":{
-        "url":strImageLink
+  // check for empty values
+  if (strContent === '') {
+    strContent = 'Empty card from the API :('
+  }
+  if (strImageLink > '') {
+    let imageMessage = {
+      "attachment":{
+        "type":"image",
+        "payload":{
+          "url":strImageLink
+        }
       }
     }
-  }
-  bot.sendMessage(userId, imageMessage, (err, info) => {
-    if (err) throw err
-
-    console.log(`Sent an image to id ${info.recipient_id}`)
-
-    bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
+    bot.sendMessage(userId, imageMessage, (err, info) => {
       if (err) throw err
 
+      console.log(`Sent an image to id ${info.recipient_id}`)
+
+      bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
+        if (err) throw err
+        console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
+        console.log(`sendMessage info: ${JSON.stringify(info)}`)
+      })
+    })
+  } else {
+    bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
+      if (err) throw err
       console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
       console.log(`sendMessage info: ${JSON.stringify(info)}`)
     })
-  })
+  }
 }
 
 function changeLanguage(userId, strLanguage) {

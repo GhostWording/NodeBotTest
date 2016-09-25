@@ -61,21 +61,22 @@ bot.on('message', (payload, reply) => {
       sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'language') {
       // text = `Do you want to change language?`
-      message = {
-        "attachment":{
-          "type":"template",
-          "payload":{
-            "template_type":"generic",
-            "elements":[
-              {
-                "title":"text"
-                // ,
-                // "image_url":image
-              }
-            ]
-          }
-        }
-      }
+      message = {text}
+      // message = {
+      //   "attachment":{
+      //     "type":"template",
+      //     "payload":{
+      //       "template_type":"generic",
+      //       "elements":[
+      //         {
+      //           "title":"text"
+      //           // ,
+      //           // "image_url":image
+      //         }
+      //       ]
+      //     }
+      //   }
+      // }
       reply(message, (err) => {
         if (err) throw err
 

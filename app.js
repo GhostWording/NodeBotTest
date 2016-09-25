@@ -15,6 +15,7 @@ const topicsAPI = ['status', 'love']
 // const languages = ['english', 'french', 'français', 'spanish', 'español', 'language']
 const languages = ['english', 'french', 'français', 'spanish', 'español']
 const languageNames = {'en-EN': 'English', 'es-ES': 'Español', 'fr-FR': 'Français'}
+const languageCodes = {'en': 'en-EN', 'es': 'es-ES', 'sp': 'es-ES', 'fr': 'fr-FR'}
 
 let bot = new Bot({
   token: process.env.PAGE_TOKEN,
@@ -228,7 +229,9 @@ function changeLanguage(userId, strLanguage) {
   // en-EN, English, ENGLISH ? text and postback
   console.log(`changeLanguage: ${strLanguage}`)
   let lng = strLanguage.toLowerCase().substring(0, 2)
-  bot.sendMessage(userId, {text: `Language changed to ${lng}: ${strLanguage}`}, (err, info) => {
+  let lngCode = languageCodes[lng]
+  let lngName = languageNames[lng]
+  bot.sendMessage(userId, {text: `Language changed to ${lng}, ${lngCode}: ${lngName}`}, (err, info) => {
     if (err) throw err
     console.log(`sendMessage info: ${JSON.stringify(info)}`)
   })

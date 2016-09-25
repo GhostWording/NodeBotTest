@@ -183,7 +183,7 @@ app.get('/trigger', (req, res) => {
 
   let text = `status`
   // rework in reverse order: first loop through users then getRandomCard with his language
-  api.getRandomCard(text, 'en-EN' (strContent, strImageLink) => {
+  api.getRandomCard(text, 'en-EN', (strContent, strImageLink) => {
     // ToDo: add time calculation before and in getUsers to return only users with needed timezone
     db.getUsers((users) => {
       console.log(`users.length: ${users.length}`)
@@ -212,9 +212,9 @@ console.log('Good morning bot server running at port ' + port)
 
 function sendComboMessage(userId, strContent, strImageLink) {
   // check for empty values
-  // if (strContent === '') {
-  //   strContent = 'Empty card from the API :('
-  // }
+  if (strContent === '') {
+    strContent = 'Empty card from the API :('
+  }
   if (strImageLink > '') {
     let imageMessage = {
       "attachment":{
@@ -235,12 +235,12 @@ function sendComboMessage(userId, strContent, strImageLink) {
         console.log(`sendMessage info: ${JSON.stringify(info)}`)
       })
     })
-  // } else {
-  //   bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
-  //     if (err) throw err
-  //     console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
-  //     console.log(`sendMessage info: ${JSON.stringify(info)}`)
-  //   })
+  } else {
+    bot.sendMessage(userId, {text: strContent}, (err, info) => {
+      if (err) throw err
+      console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
+      console.log(`sendMessage info: ${JSON.stringify(info)}`)
+    })
   }
 }
 

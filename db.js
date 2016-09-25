@@ -8,8 +8,7 @@ var connection = null
 
 function connect () {
   // check if already connected 
-  console.log(`connection: ${connection}`)
-  console.log(`connection: ${JSON.stringify(connection)}`)
+  // console.log(`connection: ${JSON.stringify(connection)}`)
   // if (connection != null) {
   //   return
   // }
@@ -57,6 +56,21 @@ module.exports = {
       if (err) throw err
       console.log(rows)
       callback(rows)
+      connection.end()
+    })
+  }
+  ,
+  getLanguage: function (id, callback) {
+    connect()
+    connection.query('SELECT language FROM user', function (err, rows) {
+    connection.execute('SELECT language FROM user WHERE id = ?', [id], function (err, rows) {
+      if (err) throw err
+      console.log(rows)
+      let language = ''
+      if (rows.length > 0) {
+        language = rows[0].language
+      }
+      callback(language)
       connection.end()
     })
   }

@@ -132,18 +132,23 @@ bot.on('message', (payload, reply) => {
         })
       })
     } else {
-      let allTopics = topics.join(', ')
-      if (text === undefined) {
-        text = 'this'
-      }
-      text = `I have nothing on ${text}\nTry any of ${allTopics}.`
-      message = { text }
-
-      reply(message, (err) => {
-        if (err) throw err
-
-        console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+      db.getLanguage(payload.sender.id, (language) => {
+        api.getRandomCard(text, (strContent, strImageLink) => {
+          sendComboMessage(payload.sender.id, strContent, strImageLink)
+        })
       })
+      // let allTopics = topics.join(', ')
+      // if (text === undefined) {
+      //   text = 'this'
+      // }
+      // text = `I have nothing on ${text}\nTry any of ${allTopics}.`
+      // message = { text }
+
+      // reply(message, (err) => {
+      //   if (err) throw err
+
+      //   console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+      // })
     }
   })
 })

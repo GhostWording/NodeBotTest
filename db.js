@@ -1,13 +1,30 @@
 'use strict'
 
 const MYSQLCONNSTR = process.env.MYSQLCONNSTR_localdb
-var mysql = require('mysql2');
-// var connection = mysql.createConnection(MYSQLCONNSTR);
-var connection = mysql.createConnection({user: 'azure', database: 'azuredb', password: 'password', host: '127.0.0.1', port: '50616'});
+var mysql = require('mysql2')
+// var connection = mysql.createConnection(MYSQLCONNSTR)
+var conInfo = {}
+MYSQLCONNSTR.split(';').map((pair) => {
+  let parts = pair.split('=')
+  switch (parts[0]) {
+    case 'Database':
+      conInfo.database = parts[1]
+      break
+    case 'Data Source':
+      let subparts = parts[1].split(':')
+      conInfo.host = subparts[0]
+      conInfo.port = subparts[1]
+      break
+    case 'User Id':
+      conInfo.user = parts[1]
+      break
+    case 'Password':
+      conInfo.password = parts[1]
+  }
+})
 
-// connection.query('SELECT 1+1 as test1', function (err, rows) {
-//   //
-// });
+var connection = mysql.createConnection(conInfo)
+// var connection = mysql.createConnection({user: 'azure', database: 'azuredb', password: 'password', host: '127.0.0.1', port: '50616'})
 
 module.exports = {
   getInfo: function (callback) {

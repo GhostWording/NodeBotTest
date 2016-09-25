@@ -12,7 +12,6 @@ const api = require('./api')
 const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 const topicsAPI = ['status', 'love']
 
-// todo: move tokens to env vars later
 let bot = new Bot({
   token: process.env.PAGE_TOKEN,
   verify: process.env.VERIFY_TOKEN,

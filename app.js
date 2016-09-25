@@ -50,7 +50,7 @@ bot.on('message', (payload, reply) => {
     // indexAPI = topicsAPI.indexOf(text)
     indexLng = languages.indexOf(text)
   }
-  console.log(`${text}: ${index} in topics`)
+  // console.log(`${text}: ${index} in topics`)
 
   bot.getProfile(payload.sender.id, (err, profile) => {
     if (err) throw err
@@ -133,7 +133,7 @@ bot.on('message', (payload, reply) => {
       })
     } else {
       db.getLanguage(payload.sender.id, (language) => {
-        api.getRandomCard(text, (strContent, strImageLink) => {
+        api.getRandomCard(text, language, (strContent, strImageLink) => {
           sendComboMessage(payload.sender.id, strContent, strImageLink)
         })
       })

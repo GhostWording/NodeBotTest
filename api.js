@@ -4,12 +4,12 @@ const request = require('request')
 const urlRandomCard = 'http://api.cvd.io/popular/stickers/randomCard/forKeyword/'
 
 module.exports = {
-  getRandomCard: function (keyword, callback) {
+  getRandomCard: function (keyword, language, callback) {
     var options = {
       url: urlRandomCard + keyword, // url-encode keyword
       headers: {
         'Accept': 'application/json',
-        'Accept-Language': 'en-EN'
+        'Accept-Language': language
       }
     }
 

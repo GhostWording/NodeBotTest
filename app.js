@@ -12,6 +12,9 @@ const api = require('./api')
 const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 const topicsAPI = ['status', 'love']
 
+// const languages = ['english', 'french', 'français', 'spanish', 'español', 'language']
+const languages = ['english', 'french', 'français', 'spanish', 'español']
+
 let bot = new Bot({
   token: process.env.PAGE_TOKEN,
   verify: process.env.VERIFY_TOKEN,
@@ -42,6 +45,7 @@ bot.on('message', (payload, reply) => {
     text = text.toLowerCase()
     index = topics.indexOf(text)
     indexAPI = topicsAPI.indexOf(text)
+    indexLng = languages.indexOf(text)
   }
   console.log(`${text}: ${index} in topics`)
 
@@ -51,7 +55,9 @@ bot.on('message', (payload, reply) => {
     let image = ''
     let message
     console.log(`User ${profile.first_name} ${profile.last_name}: ${payload.sender.id} ${profile.locale}, ${profile.timezone}`)
-    if (indexAPI > -1) {
+    if (indexLng > -1) {
+      changeLanguage(payload.sender.id, text)
+    } else if (indexAPI > -1) {
       api.getRandomCard(text, (strContent, strImageLink) => {
         sendComboMessage(payload.sender.id, strContent, strImageLink)
       })
@@ -72,15 +78,20 @@ bot.on('message', (payload, reply) => {
             "text": text,
             "buttons":[
               {
-                "type":"web_url",
-                "url":"https://petersapparel.parseapp.com",
-                "title":"Show Website"
+                "type":"postback",
+                "title":"English",
+                "payload":"ENGLISH"
               },
               {
                 "type":"postback",
-                "title":"Start Chatting",
-                "payload":"USER_DEFINED_PAYLOAD"
-              }
+                "title":"Français",
+                "payload":"FRENCH"
+              },
+              {
+                "type":"postback",
+                "title":"Español",
+                "payload":"SPANISH"
+              },
             ]
           }
         }
@@ -131,6 +142,8 @@ bot.on('message', (payload, reply) => {
 })
 
 bot.on('postback', (payload, reply) => {
+  console.log(`postback: ${JSON.stringify(payload)}`)
+  changeLanguage(payload.sender.id, payload.postback.payload)
   reply({ text: JSON.stringify(payload)}, (err, info) => {})
 })
 
@@ -207,5 +220,14 @@ function sendComboMessage(userId, strContent, strImageLink) {
       console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
       console.log(`sendMessage info: ${JSON.stringify(info)}`)
     })
+  })
+}
+
+function changeLanguage(userId, strLanguage) {
+  // en-EN, English, ENGLISH ? text and postback
+  console.log(`changeLanguage: ${strLanguage}`)
+  bot.sendMessage(userId, {text: `Language changed to ${strLanguage}`}, (err, info) => {
+    if (err) throw err
+    console.log(`sendMessage info: ${JSON.stringify(info)}`)
   })
 }

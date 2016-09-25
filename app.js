@@ -109,8 +109,8 @@ const users = [{id: 1226459377395660, timezone: 3}, {id: 862508327184244, timezo
 // const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
-  // const messageTime = 9
-  const messageTime = 18
+  const messageTime = 9
+  // const messageTime = 18
   let d = new Date()
   // let curHour = d.getHours()
   let curHour = d.getUTCHours()

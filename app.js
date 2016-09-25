@@ -41,13 +41,13 @@ bot.on('message', (payload, reply) => {
   let text = payload.message.text
   console.log(text)
   console.log(JSON.stringify(payload.message))
-  let index = -1
-  let indexAPI = -1
+  // let index = -1
+  // let indexAPI = -1
   let indexLng = -1
   if (text > '') {
     text = text.toLowerCase()
-    index = topics.indexOf(text)
-    indexAPI = topicsAPI.indexOf(text)
+    // index = topics.indexOf(text)
+    // indexAPI = topicsAPI.indexOf(text)
     indexLng = languages.indexOf(text)
   }
   console.log(`${text}: ${index} in topics`)
@@ -65,14 +65,14 @@ bot.on('message', (payload, reply) => {
       // list of languages?
     } else if (indexLng > -1) {
       changeLanguage(payload.sender.id, text)
-    } else if (indexAPI > -1) {
-      api.getRandomCard(text, (strContent, strImageLink) => {
-        sendComboMessage(payload.sender.id, strContent, strImageLink)
-      })
-    } else if (index > -1) {
-      let strContent = `Some text on ${text}`
-      let strImageLink = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
-      sendComboMessage(payload.sender.id, strContent, strImageLink)
+    // } else if (indexAPI > -1) {
+    //   api.getRandomCard(text, (strContent, strImageLink) => {
+    //     sendComboMessage(payload.sender.id, strContent, strImageLink)
+    //   })
+    // } else if (index > -1) {
+    //   let strContent = `Some text on ${text}`
+    //   let strImageLink = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
+    //   sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'language') {
       // text = `Do you want to change language?`
       text = `Other languages?\n¿Otros idiomas?\nAutres langues?`

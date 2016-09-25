@@ -212,9 +212,9 @@ console.log('Good morning bot server running at port ' + port)
 
 function sendComboMessage(userId, strContent, strImageLink) {
   // check for empty values
-  if (strContent === '') {
-    strContent = 'Empty card from the API :('
-  }
+  // if (strContent === '') {
+  //   strContent = 'Empty card from the API :('
+  // }
   if (strImageLink > '') {
     let imageMessage = {
       "attachment":{
@@ -235,12 +235,12 @@ function sendComboMessage(userId, strContent, strImageLink) {
         console.log(`sendMessage info: ${JSON.stringify(info)}`)
       })
     })
-  } else {
-    bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
-      if (err) throw err
-      console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
-      console.log(`sendMessage info: ${JSON.stringify(info)}`)
-    })
+  // } else {
+  //   bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
+  //     if (err) throw err
+  //     console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
+  //     console.log(`sendMessage info: ${JSON.stringify(info)}`)
+  //   })
   }
 }
 

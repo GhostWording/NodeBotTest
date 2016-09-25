@@ -61,22 +61,23 @@ bot.on('message', (payload, reply) => {
       sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'language') {
       // text = `Do you want to change language?`
-      message = {text}
-      // message = {
-      //   "attachment":{
-      //     "type":"template",
-      //     "payload":{
-      //       "template_type":"generic",
-      //       "elements":[
-      //         {
-      //           "title":"text"
-      //           // ,
-      //           // "image_url":image
-      //         }
-      //       ]
-      //     }
-      //   }
-      // }
+      text = `Some text on ${text}`
+      image = 'http://gw-static.azurewebsites.net/canonical/shutterstock_153453332.jpg'
+      // title (80 character limit), image_url
+      message = {
+        "attachment":{
+          "type":"template",
+          "payload":{
+            "template_type":"generic",
+            "elements":[
+              {
+                "title":text,
+                "image_url":image
+              }
+            ]
+          }
+        }
+      }
       reply(message, (err) => {
         if (err) throw err
 

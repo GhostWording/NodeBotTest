@@ -1,8 +1,6 @@
 'use strict'
 
 const MYSQLCONNSTR = process.env.MYSQLCONNSTR_localdb
-var mysql = require('mysql2')
-// var connection = mysql.createConnection(MYSQLCONNSTR)
 var conInfo = {}
 MYSQLCONNSTR.split(';').map((pair) => {
   let parts = pair.split('=')
@@ -23,8 +21,8 @@ MYSQLCONNSTR.split(';').map((pair) => {
   }
 })
 
+const mysql = require('mysql2')
 var connection = mysql.createConnection(conInfo)
-// var connection = mysql.createConnection({user: 'azure', database: 'azuredb', password: 'password', host: '127.0.0.1', port: '50616'})
 
 module.exports = {
   getInfo: function (callback) {
@@ -33,7 +31,7 @@ module.exports = {
   }
   ,
   getUsers: function (callback) {
-    connection.query('SELECT id FROM user', function (err, rows) {
+    connection.query('SELECT id, timezone FROM user', function (err, rows) {
       console.log(rows)
       callback(JSON.stringify(rows))
     });

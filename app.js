@@ -61,20 +61,20 @@ bot.on('message', (payload, reply) => {
       sendComboMessage(payload.sender.id, strContent, strImageLink)
     } else if (text === 'test') {
       // just a demo
-      text = 'User: ' + JSON.stringify(payload.sender) + '\n---\n' + JSON.stringify(profile)
-      reply({text}, (err) => {
-        if (err) throw err
+      // text = 'User: ' + JSON.stringify(payload.sender) + '\n---\n' + JSON.stringify(profile)
+      // reply({text}, (err) => {
+      //   if (err) throw err
 
-        console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
-      })
+      //   console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
+      // })
       // -----
-      db.getInfo((info) => {
-        reply({text: info}, (err) => {
-          if (err) throw err
+      // db.getInfo((info) => {
+      //   reply({text: info}, (err) => {
+      //     if (err) throw err
 
-          console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${info}`)
-        })
-      })
+      //     console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${info}`)
+      //   })
+      // })
       db.getUsers((info) => {
         reply({text: info}, (err) => {
           if (err) throw err

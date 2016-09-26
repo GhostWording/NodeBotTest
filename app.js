@@ -11,7 +11,7 @@ const db = require('./db')
 const api = require('./api')
 const topics = ['status', 'love', 'like', 'poem', 'sad', 'late', 'birthday', 'thanks', 'praise', 'jibe', 'miss you']
 
-const languages = ['english', 'french', 'français', 'spanish', 'español']
+const languages = ['english', 'french', 'français', 'francais', 'spanish', 'español', 'espanol']
 const languageNames = {'en-EN': 'English', 'es-ES': 'Español', 'fr-FR': 'Français'}
 const languageCodes = {'en': 'en-EN', 'es': 'es-ES', 'sp': 'es-ES', 'fr': 'fr-FR'}
 
@@ -140,8 +140,7 @@ app.get('/', (req, res) => {
 // const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
-  // const messageTime = 9
-  const messageTime = 10
+  const messageTime = 9
   // const messageTime = 18
   let d = new Date()
   // let curHour = d.getHours()

@@ -3,7 +3,7 @@
 const request = require('request')
 const urlRandomCard = 'http://api.cvd.io/popular/stickers/randomCard/forKeyword/'
 
-function getRandomCard (keyword, language, callback) {
+function getRandomCardInernal (keyword, language, callback) {
   var options = {
     url: urlRandomCard + encodeURIComponent(keyword),
     headers: {
@@ -30,8 +30,10 @@ function getRandomCard (keyword, language, callback) {
 }
 
 module.exports = {
-  getRandomCard: getRandomCard()
-  // getRandomCard: function (keyword, language, callback) {
+  getRandomCard: function (keyword, language, callback) {
+    getRandomCardInernal(keyword, language, (strContent, strImageLink) => {
+      callback(strContent, strImageLink)
+    })
   //   var options = {
   //     url: urlRandomCard + encodeURIComponent(keyword),
   //     headers: {
@@ -55,10 +57,10 @@ module.exports = {
   //     }
   //     callback(strContent, strImageLink)
   //   })
-  // }
+  }
   ,
   getRandomCardId: function (keyword, language, id, callback) {
-    getRandomCard(keyword, language, (strContent, strImageLink) => {
+    getRandomCardInernal(keyword, language, (strContent, strImageLink) => {
       callback(id, strContent, strImageLink)
     })
   }

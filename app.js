@@ -119,7 +119,7 @@ bot.on('message', (payload, reply) => {
       })
     } else {
       // db.getLanguage(payload.sender.id, (language) => {
-      db.getLanguage2(payload.sender.id, bot.getProfile, (language) => {
+      db.getLanguage2(payload.sender.id, profile, (language) => {
         api.getRandomCard(text, language, (strContent, strImageLink) => {
           sendComboMessage(payload.sender.id, strContent, strImageLink)
         })

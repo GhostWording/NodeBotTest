@@ -74,7 +74,7 @@ module.exports = {
     })
   }
   ,
-  getLanguage2: function (id, getProfile, callback) {
+  getLanguage2: function (id, profile, callback) {
     connect()
     connection.execute('SELECT language FROM user WHERE id = ?', [id], function (err, rows) {
       if (err) throw err
@@ -85,8 +85,8 @@ module.exports = {
         callback(language)
         connection.end()
       } else {
-        getProfile(id, (err, profile) => {
-          if (err) throw err
+        // getProfile(id, (err, profile) => {
+          // if (err) throw err
           switch(profile.locale.substring(0, 2)) {
             case 'fr':
               language = 'fr-FR'
@@ -102,7 +102,7 @@ module.exports = {
             callback(language)
             connection.end()
           })
-        })
+        // })
       }
     })
   }

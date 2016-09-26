@@ -27,7 +27,15 @@ bot.on('error', (err) => {
 })
 
 bot.on('authentication', (payload, reply) => {
-  reply({ text: `Hey ${profile.first_name}!`}, (err, info) => {})
+  // save user info to the DB
+  reply({ text: `Hey ${profile.first_name}!`}, (err, info) => {
+    let allTopics = topics.join(', ')
+    let text = `Try any of ${allTopics}.`
+    bot.sendMessage(info.recipient_id, {text}, (err, info) => {
+      if (err) throw err
+      console.log(`sendMessage info: ${JSON.stringify(info)}`)
+    })
+  })
 })
 
 bot.on('delivery', (payload, reply) => {
@@ -140,11 +148,9 @@ app.get('/', (req, res) => {
 // const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
-  // const messageTime = 9
-  const messageTime = 14 // testing
+  const messageTime = 9
   // const messageTime = 18
   let d = new Date()
-  // let curHour = d.getHours()
   let curHour = d.getUTCHours()
   console.log(`Time: ${curHour}`)
 

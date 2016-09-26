@@ -140,7 +140,8 @@ app.get('/', (req, res) => {
 // const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
-  const messageTime = 9
+  // const messageTime = 9
+  const messageTime = 14 // testing
   // const messageTime = 18
   let d = new Date()
   // let curHour = d.getHours()
@@ -148,20 +149,20 @@ app.get('/trigger', (req, res) => {
   console.log(`Time: ${curHour}`)
 
   let text = `status`
-  // rework in reverse order: first loop through users then getRandomCard with his language
-  api.getRandomCard(text, 'en-EN', (strContent, strImageLink) => {
-    // ToDo: add time calculation before and in getUsers to return only users with needed timezone
-    db.getUsers((users) => {
-      console.log(`users.length: ${users.length}`)
-      console.log(`users[0]: ${JSON.stringify(users[0])}`)
-      for (var i = 0; i < users.length; i++) {
-        console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
-        if ((24 + curHour + users[i].timezone) % 24 === messageTime) {
-          console.log(`Sending message to ${users[i].id}: ${strContent}`)
-          sendComboMessage(users[i].id, strContent, strImageLink)
-        }
+  // loop through users, getRandomCard with their language
+  // ToDo: add time calculation before and in getUsers to return only users with needed timezone
+  db.getUsers((users) => {
+    console.log(`users.length: ${users.length}`)
+    console.log(`users[0]: ${JSON.stringify(users[0])}`)
+    for (var i = 0; i < users.length; i++) {
+      console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
+      if ((24 + curHour + users[i].timezone) % 24 === messageTime) {
+        api.getRandomCardId(text, language, payload.sender.id, (id, strContent, strImageLink) => {
+          console.log(`Sending message to ${id}: ${strContent}`)
+          sendComboMessage(id, strContent, strImageLink)
+        })
       }
-    })
+    }
   })
   // after all users processed?
   res.end(JSON.stringify({status: 'ok'}))

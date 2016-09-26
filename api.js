@@ -29,4 +29,10 @@ module.exports = {
       callback(strContent, strImageLink)
     })
   }
+  ,
+  getRandomCardId: function (keyword, language, id, callback) {
+    getRandomCard(keyword, language, (strContent, strImageLink) => {
+      callback(id, strContent, strImageLink)
+    })
+  }
 }

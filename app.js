@@ -157,7 +157,7 @@ app.get('/trigger', (req, res) => {
     for (var i = 0; i < users.length; i++) {
       console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
       if ((24 + curHour + users[i].timezone) % 24 === messageTime) {
-        api.getRandomCardId(text, language, payload.sender.id, (id, strContent, strImageLink) => {
+        api.getRandomCardId(text, users[i].language, users[i].id, (id, strContent, strImageLink) => {
           console.log(`Sending message to ${id}: ${strContent}`)
           sendComboMessage(id, strContent, strImageLink)
         })

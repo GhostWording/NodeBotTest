@@ -140,7 +140,8 @@ app.get('/', (req, res) => {
 // const users = [{id: 1226459377395660, timezone: 3}]
 
 app.get('/trigger', (req, res) => {
-  const messageTime = 9
+  // const messageTime = 9
+  const messageTime = 10
   // const messageTime = 18
   let d = new Date()
   // let curHour = d.getHours()

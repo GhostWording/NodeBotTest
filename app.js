@@ -65,6 +65,9 @@ bot.on('message', (payload, reply) => {
       // list of languages?
       // add a list of topics in the language (2do)
 
+      db.getLanguage(payload.sender.id, profile, (language) => {
+        api.getKeywords(language, () => {})
+      })
       // list of topics
       let allTopics = topics.join(', ')
       let text = `Try any of ${allTopics}.`
@@ -75,6 +78,7 @@ bot.on('message', (payload, reply) => {
     } else if (indexLng > -1) {
       changeLanguage(payload.sender.id, text)
     } else if (text === 'language') {
+      db.getLanguage(payload.sender.id, profile, (language) => {}) // Just to save new user info
       // text = `Do you want to change language?`
       text = `Other languages?\n¿Otros idiomas?\nAutres langues?`
       // text (320 character limit)
@@ -118,8 +122,7 @@ bot.on('message', (payload, reply) => {
         })
       })
     } else {
-      // db.getLanguage(payload.sender.id, (language) => {
-      db.getLanguage2(payload.sender.id, profile, (language) => {
+      db.getLanguage(payload.sender.id, profile, (language) => {
         api.getRandomCard(text, language, (strContent, strImageLink) => {
           sendComboMessage(payload.sender.id, strContent, strImageLink)
         })

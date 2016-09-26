@@ -2,6 +2,7 @@
 
 const request = require('request')
 const urlRandomCard = 'http://api.cvd.io/popular/stickers/randomCard/forKeyword/'
+const urlKeywords = 'http://gw-static-apis.azurewebsites.net/bot/intentionkeywords/publickeywords.json'
 
 function getRandomCardInernal (keyword, language, callback) {
   var options = {
@@ -39,5 +40,8 @@ module.exports = {
     getRandomCardInernal(keyword, language, (strContent, strImageLink) => {
       callback(id, strContent, strImageLink)
     })
+  }
+  ,
+  getKeywords: function (language, callback) {
   }
 }

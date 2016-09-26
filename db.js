@@ -60,21 +60,21 @@ module.exports = {
     })
   }
   ,
-  getLanguage: function (id, callback) {
-    connect()
-    connection.execute('SELECT language FROM user WHERE id = ?', [id], function (err, rows) {
-      if (err) throw err
-      console.log(rows)
-      let language = ''
-      if (rows.length > 0) {
-        language = rows[0].language
-      }
-      callback(language)
-      connection.end()
-    })
-  }
-  ,
-  getLanguage2: function (id, profile, callback) {
+  // getLanguage: function (id, callback) {
+  //   connect()
+  //   connection.execute('SELECT language FROM user WHERE id = ?', [id], function (err, rows) {
+  //     if (err) throw err
+  //     console.log(rows)
+  //     let language = ''
+  //     if (rows.length > 0) {
+  //       language = rows[0].language
+  //     }
+  //     callback(language)
+  //     connection.end()
+  //   })
+  // }
+  // ,
+  getLanguage: function (id, profile, callback) {
     connect()
     connection.execute('SELECT language FROM user WHERE id = ?', [id], function (err, rows) {
       if (err) throw err
@@ -85,24 +85,21 @@ module.exports = {
         callback(language)
         connection.end()
       } else {
-        // getProfile(id, (err, profile) => {
-          // if (err) throw err
-          switch(profile.locale.substring(0, 2)) {
-            case 'fr':
-              language = 'fr-FR'
-              break
-            case 'es':
-              language = 'es-ES'
-              break
-            default:
-              language = 'en-EN'
-          }
-          connection.execute('INSERT INTO user (id, first_name, last_name, profile_pic, locale, timezone, gender, language) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [id, profile.first_name, profile.last_name, profile.profile_pic, profile.locale, profile.timezone, profile.gender, language], function (err, rows) {
-            if (err) throw err
-            callback(language)
-            connection.end()
-          })
-        // })
+        switch(profile.locale.substring(0, 2)) {
+          case 'fr':
+            language = 'fr-FR'
+            break
+          case 'es':
+            language = 'es-ES'
+            break
+          default:
+            language = 'en-EN'
+        }
+        connection.execute('INSERT INTO user (id, first_name, last_name, profile_pic, locale, timezone, gender, language) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [id, profile.first_name, profile.last_name, profile.profile_pic, profile.locale, profile.timezone, profile.gender, language], function (err, rows) {
+          if (err) throw err
+          callback(language)
+          connection.end()
+        })
       }
     })
   }

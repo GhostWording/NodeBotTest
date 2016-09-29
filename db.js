@@ -5,13 +5,6 @@ const MYSQLCONNSTR = process.env.MYSQLCONNSTR_localdb
 const mysql = require('mysql2')
 // var connection = mysql.createConnection(conInfo)
 var connection = null
-
-function connect () {
-  // check if already connected 
-  // console.log(`connection: ${JSON.stringify(connection)}`)
-  // if (connection != null) {
-  //   return
-  // }
   let conInfo = {}
   MYSQLCONNSTR.split(';').map((pair) => {
     let parts = pair.split('=')
@@ -32,6 +25,13 @@ function connect () {
     }
   })
   connection = mysql.createConnection(conInfo)
+
+function connect () {
+  // check if already connected 
+  // console.log(`connection: ${JSON.stringify(connection)}`)
+  // if (connection != null) {
+  //   return
+  // }
 }
 
 module.exports = {

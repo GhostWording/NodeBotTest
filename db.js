@@ -46,7 +46,7 @@ module.exports = {
       if (err) throw err
       console.log(rows)
       callback(rows)
-      connection.end()
+      // connection.end()
     });
   }
   ,
@@ -56,7 +56,7 @@ module.exports = {
       if (err) throw err
       console.log(rows)
       callback(rows)
-      connection.end()
+      // connection.end()
     })
   }
   ,
@@ -83,7 +83,7 @@ module.exports = {
       if (rows.length > 0) {
         language = rows[0].language
         callback(language)
-        connection.end()
+        // connection.end()
       } else {
         switch(profile.locale.substring(0, 2)) {
           case 'fr':
@@ -98,7 +98,7 @@ module.exports = {
         connection.execute('INSERT INTO user (id, first_name, last_name, profile_pic, locale, timezone, gender, language) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [id, profile.first_name, profile.last_name, profile.profile_pic, profile.locale, profile.timezone, profile.gender, language], function (err, rows) {
           if (err) throw err
           callback(language)
-          connection.end()
+          // connection.end()
         })
       }
     })

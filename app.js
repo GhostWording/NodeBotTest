@@ -68,13 +68,7 @@ bot.on('message', (payload, reply) => {
       db.getLanguage(payload.sender.id, profile, (language) => {
         api.getKeywords(language, () => {})
       })
-      // list of topics
-      let allTopics = topics.join(', ')
-      let text = `Try any of ${allTopics}.`
-      reply({text}, (err, info) => {
-        if (err) throw err
-        console.log(`sendMessage info: ${JSON.stringify(info)}`)
-      })
+      sendKeywords(userId)
     } else if (indexLng > -1) {
       changeLanguage(payload.sender.id, text)
     } else if (text === 'language') {
@@ -217,8 +211,19 @@ function sendComboMessage(userId, strContent, strImageLink) {
       if (err) throw err
       console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
       console.log(`sendMessage info: ${JSON.stringify(info)}`)
+      sendKeywords(info.recipient_id)
     })
   }
+}
+
+function sendKeywords(userId) {
+  let allTopics = topics.join(', ')
+  let text = `Try any of ${allTopics}.`
+  bot.sendMessage(userId, {text}, (err, info) => {
+    if (err) throw err
+    console.log(`Sent message to id ${info.recipient_id}: ${text}`)
+    console.log(`sendMessage info: ${JSON.stringify(info)}`)
+  })
 }
 
 function changeLanguage(userId, strLanguage) {

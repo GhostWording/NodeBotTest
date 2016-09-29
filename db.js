@@ -26,14 +26,12 @@ var connection = mysql.createConnection(conInfo)
 
 module.exports = {
   getInfo: function (callback) {
-    console.log(MYSQLCONNSTR)
     callback(MYSQLCONNSTR)
   }
   ,
   getUsers: function (callback) {
     connection.query('SELECT id, timezone, language FROM user', function (err, rows) {
       if (err) throw err
-      console.log(rows)
       callback(rows)
     });
   }
@@ -41,7 +39,6 @@ module.exports = {
   setLanguage: function (id, language, callback) {
     connection.execute('UPDATE user SET language = ? WHERE id = ?', [language, id], function (err, rows) {
       if (err) throw err
-      console.log(rows)
       callback(rows)
     })
   }
@@ -49,7 +46,6 @@ module.exports = {
   getLanguage: function (id, profile, callback) {
     connection.execute('SELECT language FROM user WHERE id = ?', [id], function (err, rows) {
       if (err) throw err
-      console.log(rows)
       let language = ''
       if (rows.length > 0) {
         language = rows[0].language

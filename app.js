@@ -35,8 +35,8 @@ bot.on('authentication', (payload, reply) => {
 })
 
 bot.on('delivery', (payload, reply) => {
-  let strPayload = JSON.stringify(payload)
-  console.log(`Delivered: ${strPayload}`)
+  // let strPayload = JSON.stringify(payload)
+  // console.log(`Delivered: ${strPayload}`)
 })
 
 bot.on('message', (payload, reply) => {

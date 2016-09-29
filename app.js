@@ -29,12 +29,8 @@ bot.on('error', (err) => {
 bot.on('authentication', (payload, reply) => {
   // save user info to the DB
   reply({ text: `Hey ${profile.first_name}!`}, (err, info) => {
-    let allTopics = topics.join(', ')
-    let text = `Try any of ${allTopics}.`
-    bot.sendMessage(info.recipient_id, {text}, (err, info) => {
-      if (err) throw err
-      console.log(`sendMessage info: ${JSON.stringify(info)}`)
-    })
+    if (err) throw err
+    sendKeywords(info.recipient_id)
   })
 })
 
@@ -45,8 +41,6 @@ bot.on('delivery', (payload, reply) => {
 
 bot.on('message', (payload, reply) => {
   let text = payload.message.text
-  console.log(text)
-  console.log(JSON.stringify(payload.message))
   let indexLng = -1
   if (text > '') {
     text = text.toLowerCase()
@@ -58,7 +52,6 @@ bot.on('message', (payload, reply) => {
 
     let image = ''
     let message
-    console.log(`User ${profile.first_name} ${profile.last_name}: ${payload.sender.id} ${profile.locale}, ${profile.timezone}`)
     if (text === 'help') {
       // 'help' in other languages?
       // description of the bot?
@@ -104,15 +97,11 @@ bot.on('message', (payload, reply) => {
       }
       reply(message, (err) => {
         if (err) throw err
-
-        console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${text}`)
       })
     } else if (text === 'test') {
       db.getUsers((info) => {
         reply({text: JSON.stringify(info)}, (err) => {
           if (err) throw err
-
-          console.log(`Sent message to ${profile.first_name} ${profile.last_name}: ${info}`)
         })
       })
     } else {
@@ -126,9 +115,7 @@ bot.on('message', (payload, reply) => {
 })
 
 bot.on('postback', (payload, reply) => {
-  console.log(`postback: ${JSON.stringify(payload)}`)
   changeLanguage(payload.sender.id, payload.postback.payload)
-  // reply({ text: JSON.stringify(payload)}, (err, info) => {})
 })
 
 let app = express()
@@ -142,12 +129,8 @@ app.get('/', (req, res) => {
   return bot._verify(req, res)
 })
 
-// for testing
-// const users = [{id: 1226459377395660, timezone: 3}]
-
 app.get('/trigger', (req, res) => {
   const messageTime = 9
-  // const messageTime = 18
   let d = new Date()
   let curHour = d.getUTCHours()
   console.log(`Time: ${curHour}`)
@@ -156,8 +139,6 @@ app.get('/trigger', (req, res) => {
   // loop through users, getRandomCard with their language
   // ToDo: add time calculation before and in getUsers to return only users with needed timezone
   db.getUsers((users) => {
-    console.log(`users.length: ${users.length}`)
-    console.log(`users[0]: ${JSON.stringify(users[0])}`)
     for (var i = 0; i < users.length; i++) {
       console.log(`Time + timezone: ${(curHour + users[i].timezone) % 24}`)
       if ((24 + curHour + users[i].timezone) % 24 === messageTime) {
@@ -168,7 +149,7 @@ app.get('/trigger', (req, res) => {
       }
     }
   })
-  // after all users processed?
+
   res.end(JSON.stringify({status: 'ok'}))
 })
 
@@ -198,20 +179,14 @@ function sendComboMessage(userId, strContent, strImageLink) {
     bot.sendMessage(userId, imageMessage, (err, info) => {
       if (err) throw err
 
-      console.log(`Sent an image to id ${info.recipient_id}`)
-
       bot.sendMessage(info.recipient_id, {text: strContent}, (err, info) => {
         if (err) throw err
-        console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
-        console.log(`sendMessage info: ${JSON.stringify(info)}`)
         sendKeywords(info.recipient_id)
       })
     })
   } else {
     bot.sendMessage(userId, {text: strContent}, (err, info) => {
       if (err) throw err
-      console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
-      console.log(`sendMessage info: ${JSON.stringify(info)}`)
       sendKeywords(info.recipient_id)
     })
   }
@@ -222,28 +197,18 @@ function sendKeywords(userId) {
   let text = `Try any of ${allTopics}.`
   bot.sendMessage(userId, {text}, (err, info) => {
     if (err) throw err
-    console.log(`Sent message to id ${info.recipient_id}: ${text}`)
-    console.log(`sendMessage info: ${JSON.stringify(info)}`)
   })
 }
 
 function changeLanguage(userId, strLanguage) {
   // en-EN, English, ENGLISH ? text and postback
-  console.log(`changeLanguage: ${strLanguage}`)
   let lng = strLanguage.substring(0, 2).toLowerCase()
   let lngCode = languageCodes[lng]
   let lngName = languageNames[lngCode]
   db.setLanguage(userId, lngCode, (info) => {
     bot.sendMessage(userId, {text: `Language changed to ${lngName}`}, (err, info) => {
       if (err) throw err
-      console.log(`sendMessage info: ${JSON.stringify(info)}`)
       // add a list of topics in the language (2do)
-      // let allTopics = topics.join(', ')
-      // let text = `Try any of ${allTopics}.`
-      // bot.sendMessage(userId, {text}, (err, info) => {
-      //   if (err) throw err
-      //   console.log(`sendMessage info: ${JSON.stringify(info)}`)
-      // })
     })
   })
 }

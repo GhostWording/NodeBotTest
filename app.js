@@ -68,7 +68,7 @@ bot.on('message', (payload, reply) => {
       db.getLanguage(payload.sender.id, profile, (language) => {
         api.getKeywords(language, () => {})
       })
-      sendKeywords(userId)
+      sendKeywords(payload.sender.id)
     } else if (indexLng > -1) {
       changeLanguage(payload.sender.id, text)
     } else if (text === 'language') {
@@ -204,6 +204,7 @@ function sendComboMessage(userId, strContent, strImageLink) {
         if (err) throw err
         console.log(`Sent message to id ${info.recipient_id}: ${strContent}`)
         console.log(`sendMessage info: ${JSON.stringify(info)}`)
+        sendKeywords(info.recipient_id)
       })
     })
   } else {
